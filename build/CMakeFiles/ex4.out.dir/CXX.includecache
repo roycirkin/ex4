@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/roy/ex4/Logger.hpp
+memory
+-
+fstream
+-
+string
+-
+mutex
+-
+
+/home/roy/ex4/main.cpp
+Logger.hpp
+/home/roy/ex4/Logger.hpp
+iostream
+-
+

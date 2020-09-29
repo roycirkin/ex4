@@ -35,6 +35,8 @@ CMakeFiles/ex4.out.dir/Solver.cpp.o
 CMakeFiles/ex4.out.dir/main.cpp.o
  /home/roy/ex4/Graph.hpp
  /home/roy/ex4/Logger.hpp
+ /home/roy/ex4/SearchAlgo.hpp
+ /home/roy/ex4/Solver.hpp
  /home/roy/ex4/main.cpp
  /home/roy/ex4/matrix/ClassMatrix.hpp
  /home/roy/ex4/matrix/ErrorCode.h

@@ -14,8 +14,8 @@ private:
     size_t end;
     Algorithm::SearchAlgo* alg;
 public:
-    GraphSolver(Graphs::Graph graph, size_t start, size_t end, Algorithm::SearchAlgo* alg);
-    Status_solver solve() const;
+    GraphSolver(Graphs::Graph& graph, size_t start, size_t end, Algorithm::SearchAlgo* alg);
+    Status_solver solve(size_t* price) const;
 
 };
 

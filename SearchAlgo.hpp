@@ -11,6 +11,7 @@ public:
 
 
 class BFSAlgo : public SearchAlgo {
+
 public:
     size_t solve(const Graphs::Graph& g, size_t start, size_t end) const;
 };
@@ -18,6 +19,7 @@ public:
 class DFSAlgo : public SearchAlgo {
 public:
     size_t solve(const Graphs::Graph& g, size_t start, size_t end) const;
+    void developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDevelop, std::vector<double>& bestPathTo) const;
 };
 
 

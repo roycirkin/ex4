@@ -34,6 +34,8 @@ CMakeFiles/ex4.out.dir/Solver.cpp.o: ../matrix/Matrix.h
 
 CMakeFiles/ex4.out.dir/main.cpp.o: ../Graph.hpp
 CMakeFiles/ex4.out.dir/main.cpp.o: ../Logger.hpp
+CMakeFiles/ex4.out.dir/main.cpp.o: ../SearchAlgo.hpp
+CMakeFiles/ex4.out.dir/main.cpp.o: ../Solver.hpp
 CMakeFiles/ex4.out.dir/main.cpp.o: ../main.cpp
 CMakeFiles/ex4.out.dir/main.cpp.o: ../matrix/ClassMatrix.hpp
 CMakeFiles/ex4.out.dir/main.cpp.o: ../matrix/ErrorCode.h

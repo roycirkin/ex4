@@ -6,6 +6,18 @@
 
 #IncludeRegexTransform: 
 
+/home/roy/ex4/Graph.cpp
+Graph.hpp
+/home/roy/ex4/Graph.hpp
+
+/home/roy/ex4/Graph.hpp
+iostream
+-
+vector
+-
+map
+-
+
 /home/roy/ex4/Logger.hpp
 memory
 -
@@ -19,6 +31,10 @@ mutex
 /home/roy/ex4/main.cpp
 Logger.hpp
 /home/roy/ex4/Logger.hpp
+Graph.hpp
+/home/roy/ex4/Graph.hpp
 iostream
+-
+vector
 -
 

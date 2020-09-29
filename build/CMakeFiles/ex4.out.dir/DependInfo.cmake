@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/roy/ex4/Graph.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Graph.cpp.o"
   "/home/roy/ex4/Logger.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Logger.cpp.o"
   "/home/roy/ex4/main.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/main.cpp.o"
   )

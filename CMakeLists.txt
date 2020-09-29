@@ -8,7 +8,7 @@ include(CTest)
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 enable_testing()
 
-add_executable(ex4.out Logger.cpp main.cpp)
+add_executable(ex4.out Graph.cpp Logger.cpp main.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

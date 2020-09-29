@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <map>
+#include "matrix/ClassMatrix.hpp"
 using namespace std;
 
 namespace Graphs {
@@ -21,13 +22,14 @@ public:
 	// construct a vector of vectors to represent an adjacency list
 
 	// Graph Constructor
+	Graph(matrix::Matrix& m);
 	Graph(vector<Edge> const &edges, std::vector<double>&  costs);
     int getSize() const;
-    const std::vector<vector<int>>& getAdjList();
-	const std::vector<double>& getCosts();
+    const std::vector<vector<int>>& getAdjList() const;
+	const std::vector<double>& getCosts() const;
 	friend void printGraph(Graph const& graph);
 };
-
+ 
 // print adjacency list representation of graph
 void printGraph(Graph const& graph);
 

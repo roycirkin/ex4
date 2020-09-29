@@ -6,10 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/roy/ex4/Graph.cpp
-Graph.hpp
-/home/roy/ex4/Graph.hpp
-
 /home/roy/ex4/Graph.hpp
 iostream
 -
@@ -17,24 +13,40 @@ vector
 -
 map
 -
+matrix/ClassMatrix.hpp
+/home/roy/ex4/matrix/ClassMatrix.hpp
 
-/home/roy/ex4/Logger.hpp
-memory
--
-fstream
--
-string
--
-mutex
+/home/roy/ex4/SearchAlgo.cpp
+SearchAlgo.hpp
+/home/roy/ex4/SearchAlgo.hpp
+queue
 -
 
-/home/roy/ex4/main.cpp
-Logger.hpp
-/home/roy/ex4/Logger.hpp
+/home/roy/ex4/SearchAlgo.hpp
 Graph.hpp
 /home/roy/ex4/Graph.hpp
-iostream
+
+/home/roy/ex4/matrix/ClassMatrix.hpp
+Matrix.h
+/home/roy/ex4/matrix/Matrix.h
+stdint.h
 -
 vector
 -
+fstream
+-
+
+/home/roy/ex4/matrix/ErrorCode.h
+stdbool.h
+-
+stdint.h
+-
+
+/home/roy/ex4/matrix/Matrix.h
+stdint.h
+-
+unistd.h
+-
+ErrorCode.h
+/home/roy/ex4/matrix/ErrorCode.h
 

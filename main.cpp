@@ -1,5 +1,6 @@
 #include "Logger.hpp"
 #include "Graph.hpp"
+#include "matrix/ClassMatrix.hpp"
 #include <iostream>
 #include <vector>
 
@@ -21,6 +22,19 @@ int main(int argc, char* argv[]) {
 
     Graphs::Graph graph(edges,costs);
     Graphs::printGraph(graph);
+    std::cout << std::endl;
+
+    matrix::Matrix m(2,2);
+    m.matrixSetValue(0, 0, 4);
+    m.matrixSetValue(0, 1, 6);
+    m.matrixSetValue(1, 0, 3);
+    m.matrixSetValue(1, 1, 9);
+
+    Graphs::Graph graph2(m);
+    Graphs::printGraph(graph2);
+
+
+
 
 
 

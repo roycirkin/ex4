@@ -574,6 +574,60 @@ Logger.cpp.s:
 	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Logger.cpp.s
 .PHONY : Logger.cpp.s
 
+SearchAlgo.o: SearchAlgo.cpp.o
+
+.PHONY : SearchAlgo.o
+
+# target to build an object file
+SearchAlgo.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o
+.PHONY : SearchAlgo.cpp.o
+
+SearchAlgo.i: SearchAlgo.cpp.i
+
+.PHONY : SearchAlgo.i
+
+# target to preprocess a source file
+SearchAlgo.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/SearchAlgo.cpp.i
+.PHONY : SearchAlgo.cpp.i
+
+SearchAlgo.s: SearchAlgo.cpp.s
+
+.PHONY : SearchAlgo.s
+
+# target to generate assembly for a file
+SearchAlgo.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s
+.PHONY : SearchAlgo.cpp.s
+
+Solver.o: Solver.cpp.o
+
+.PHONY : Solver.o
+
+# target to build an object file
+Solver.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Solver.cpp.o
+.PHONY : Solver.cpp.o
+
+Solver.i: Solver.cpp.i
+
+.PHONY : Solver.i
+
+# target to preprocess a source file
+Solver.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Solver.cpp.i
+.PHONY : Solver.cpp.i
+
+Solver.s: Solver.cpp.s
+
+.PHONY : Solver.s
+
+# target to generate assembly for a file
+Solver.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Solver.cpp.s
+.PHONY : Solver.cpp.s
+
 main.o: main.cpp.o
 
 .PHONY : main.o
@@ -600,6 +654,141 @@ main.s: main.cpp.s
 main.cpp.s:
 	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/main.cpp.s
 .PHONY : main.cpp.s
+
+matrix/ClassMatrix.o: matrix/ClassMatrix.cpp.o
+
+.PHONY : matrix/ClassMatrix.o
+
+# target to build an object file
+matrix/ClassMatrix.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o
+.PHONY : matrix/ClassMatrix.cpp.o
+
+matrix/ClassMatrix.i: matrix/ClassMatrix.cpp.i
+
+.PHONY : matrix/ClassMatrix.i
+
+# target to preprocess a source file
+matrix/ClassMatrix.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.i
+.PHONY : matrix/ClassMatrix.cpp.i
+
+matrix/ClassMatrix.s: matrix/ClassMatrix.cpp.s
+
+.PHONY : matrix/ClassMatrix.s
+
+# target to generate assembly for a file
+matrix/ClassMatrix.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s
+.PHONY : matrix/ClassMatrix.cpp.s
+
+matrix/ErrorCode.o: matrix/ErrorCode.c.o
+
+.PHONY : matrix/ErrorCode.o
+
+# target to build an object file
+matrix/ErrorCode.c.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o
+.PHONY : matrix/ErrorCode.c.o
+
+matrix/ErrorCode.i: matrix/ErrorCode.c.i
+
+.PHONY : matrix/ErrorCode.i
+
+# target to preprocess a source file
+matrix/ErrorCode.c.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.i
+.PHONY : matrix/ErrorCode.c.i
+
+matrix/ErrorCode.s: matrix/ErrorCode.c.s
+
+.PHONY : matrix/ErrorCode.s
+
+# target to generate assembly for a file
+matrix/ErrorCode.c.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.s
+.PHONY : matrix/ErrorCode.c.s
+
+matrix/Matrix.o: matrix/Matrix.c.o
+
+.PHONY : matrix/Matrix.o
+
+# target to build an object file
+matrix/Matrix.c.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/Matrix.c.o
+.PHONY : matrix/Matrix.c.o
+
+matrix/Matrix.i: matrix/Matrix.c.i
+
+.PHONY : matrix/Matrix.i
+
+# target to preprocess a source file
+matrix/Matrix.c.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/Matrix.c.i
+.PHONY : matrix/Matrix.c.i
+
+matrix/Matrix.s: matrix/Matrix.c.s
+
+.PHONY : matrix/Matrix.s
+
+# target to generate assembly for a file
+matrix/Matrix.c.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/Matrix.c.s
+.PHONY : matrix/Matrix.c.s
+
+matrix/MatrixExceptions.o: matrix/MatrixExceptions.cpp.o
+
+.PHONY : matrix/MatrixExceptions.o
+
+# target to build an object file
+matrix/MatrixExceptions.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o
+.PHONY : matrix/MatrixExceptions.cpp.o
+
+matrix/MatrixExceptions.i: matrix/MatrixExceptions.cpp.i
+
+.PHONY : matrix/MatrixExceptions.i
+
+# target to preprocess a source file
+matrix/MatrixExceptions.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.i
+.PHONY : matrix/MatrixExceptions.cpp.i
+
+matrix/MatrixExceptions.s: matrix/MatrixExceptions.cpp.s
+
+.PHONY : matrix/MatrixExceptions.s
+
+# target to generate assembly for a file
+matrix/MatrixExceptions.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.s
+.PHONY : matrix/MatrixExceptions.cpp.s
+
+matrix/MatrixParser.o: matrix/MatrixParser.cpp.o
+
+.PHONY : matrix/MatrixParser.o
+
+# target to build an object file
+matrix/MatrixParser.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o
+.PHONY : matrix/MatrixParser.cpp.o
+
+matrix/MatrixParser.i: matrix/MatrixParser.cpp.i
+
+.PHONY : matrix/MatrixParser.i
+
+# target to preprocess a source file
+matrix/MatrixParser.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.i
+.PHONY : matrix/MatrixParser.cpp.i
+
+matrix/MatrixParser.s: matrix/MatrixParser.cpp.s
+
+.PHONY : matrix/MatrixParser.s
+
+# target to generate assembly for a file
+matrix/MatrixParser.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.s
+.PHONY : matrix/MatrixParser.cpp.s
 
 # Help Target
 help:
@@ -647,9 +836,30 @@ help:
 	@echo "... Logger.o"
 	@echo "... Logger.i"
 	@echo "... Logger.s"
+	@echo "... SearchAlgo.o"
+	@echo "... SearchAlgo.i"
+	@echo "... SearchAlgo.s"
+	@echo "... Solver.o"
+	@echo "... Solver.i"
+	@echo "... Solver.s"
 	@echo "... main.o"
 	@echo "... main.i"
 	@echo "... main.s"
+	@echo "... matrix/ClassMatrix.o"
+	@echo "... matrix/ClassMatrix.i"
+	@echo "... matrix/ClassMatrix.s"
+	@echo "... matrix/ErrorCode.o"
+	@echo "... matrix/ErrorCode.i"
+	@echo "... matrix/ErrorCode.s"
+	@echo "... matrix/Matrix.o"
+	@echo "... matrix/Matrix.i"
+	@echo "... matrix/Matrix.s"
+	@echo "... matrix/MatrixExceptions.o"
+	@echo "... matrix/MatrixExceptions.i"
+	@echo "... matrix/MatrixExceptions.s"
+	@echo "... matrix/MatrixParser.o"
+	@echo "... matrix/MatrixParser.i"
+	@echo "... matrix/MatrixParser.s"
 .PHONY : help
 
 

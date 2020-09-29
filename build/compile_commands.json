@@ -1,6 +1,41 @@
 [
 {
   "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o -c /home/roy/ex4/matrix/MatrixParser.cpp",
+  "file": "/home/roy/ex4/matrix/MatrixParser.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o -c /home/roy/ex4/matrix/MatrixExceptions.cpp",
+  "file": "/home/roy/ex4/matrix/MatrixExceptions.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c99-gcc   -g   -Wall -Wextra -pedantic -Werror -o CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o   -c /home/roy/ex4/matrix/ErrorCode.c",
+  "file": "/home/roy/ex4/matrix/ErrorCode.c"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c99-gcc   -g   -Wall -Wextra -pedantic -Werror -o CMakeFiles/ex4.out.dir/matrix/Matrix.c.o   -c /home/roy/ex4/matrix/Matrix.c",
+  "file": "/home/roy/ex4/matrix/Matrix.c"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o -c /home/roy/ex4/matrix/ClassMatrix.cpp",
+  "file": "/home/roy/ex4/matrix/ClassMatrix.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp",
+  "file": "/home/roy/ex4/Solver.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o -c /home/roy/ex4/SearchAlgo.cpp",
+  "file": "/home/roy/ex4/SearchAlgo.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
   "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp",
   "file": "/home/roy/ex4/Graph.cpp"
 },

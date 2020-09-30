@@ -13,9 +13,13 @@ private:
     Graphs::Graph graph;
     size_t start;
     size_t end;
+    double price;
+    std::vector<Algorithm::directions> route;
+    
 public:
     GraphSolver(Graphs::Graph& graph, size_t start, size_t end);
-    Status_solver solve(double* price) const;
+    Status_solver solve();
+    double getPrice();
 
 };
 

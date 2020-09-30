@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/ex4.out.dir/Graph.cpp.o"
   "CMakeFiles/ex4.out.dir/Logger.cpp.o"
   "CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o"
+  "CMakeFiles/ex4.out.dir/Server.cpp.o"
   "CMakeFiles/ex4.out.dir/Solver.cpp.o"
   "CMakeFiles/ex4.out.dir/main.cpp.o"
   "CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o"

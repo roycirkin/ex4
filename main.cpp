@@ -5,11 +5,47 @@
 #include "SearchAlgo.hpp"
 #include <iostream>
 #include <vector>
+#include <errno.h>
+#include <system_error>
+
+
+namespace boot {
+class Main{
+public:
+    void main(int argc, char * argv[]) {
+        uint16_t port = 0;
+        //uint8_t server_type = 'p';
+
+        if ((argc <= 1) || (!(port = std::atoi(argv[1])))) {
+            Logger::log(Logger::Level::Error, "wrong port input ");
+            //throw
+        }
+
+        if (argc > 2) {
+            if (std::string(argv[2])== std::string("parallel")) {
+                //server_type = 'p';
+            } else if (std::string(argv[2])== std::string("serial")) {
+                //server_type = 's';
+                Logger::log(Logger::Level::Error, "unsuported server");
+                //throw
+            } else {
+                Logger::log(Logger::Level::Error, "unknown server type");
+                //throw
+            }
+        }
+        
+
+
+
+    }
+};
+
+}
 
 int main(int argc, char* argv[]) {
-    argc++;
     Logger::startLog(std::cerr);
-    Logger::log(Logger::Level::Info, "hello "  + std::string(argv[0]));
+    boot::Main server = boot::Main();
+    server.main(argc,argv);
 
     vector<double> costs = 
     {
@@ -64,19 +100,17 @@ int main(int argc, char* argv[]) {
 
     double price = 0;
     
-    Solver::GraphSolver<Algorithm::DFSAlgo> solver(graph2, 0, 3);
-    solver.solve(& price);
-
+    Solver::GraphSolver<Algorithm::DFSAlgo> solver(graph2, 0, 11);
+    solver.solve();
+    price = solver.getPrice();
+    price++;
+    price--;
 
 
 
 
     return 0;
 }
-
-
-
-
 
 
 

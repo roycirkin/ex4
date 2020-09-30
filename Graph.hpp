@@ -11,6 +11,8 @@ struct Edge {
 	int src, dest;
 };
 
+
+
 // class to represent a graph object
 class Graph
 {
@@ -28,6 +30,7 @@ public:
     int getSize() const;
     const std::vector<vector<int>>& getAdjList() const;
 	const std::vector<double>& getCosts() const;
+	bool getIsMatrix() const;
 	size_t getWidth() const;
 	friend void printGraph(Graph const& graph);
 };

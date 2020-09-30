@@ -24,6 +24,16 @@ CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: ../matrix/ClassMatrix.hpp
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: ../matrix/ErrorCode.h
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: ../matrix/Matrix.h
 
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../ClientHandler.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../Graph.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../SearchAlgo.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../Server.cpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../Server.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../Solver.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../matrix/ClassMatrix.hpp
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../matrix/ErrorCode.h
+CMakeFiles/ex4.out.dir/Server.cpp.o: ../matrix/Matrix.h
+
 CMakeFiles/ex4.out.dir/Solver.cpp.o: ../Graph.hpp
 CMakeFiles/ex4.out.dir/Solver.cpp.o: ../SearchAlgo.hpp
 CMakeFiles/ex4.out.dir/Solver.cpp.o: ../Solver.cpp

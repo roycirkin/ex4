@@ -601,6 +601,33 @@ SearchAlgo.cpp.s:
 	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s
 .PHONY : SearchAlgo.cpp.s
 
+Server.o: Server.cpp.o
+
+.PHONY : Server.o
+
+# target to build an object file
+Server.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Server.cpp.o
+.PHONY : Server.cpp.o
+
+Server.i: Server.cpp.i
+
+.PHONY : Server.i
+
+# target to preprocess a source file
+Server.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Server.cpp.i
+.PHONY : Server.cpp.i
+
+Server.s: Server.cpp.s
+
+.PHONY : Server.s
+
+# target to generate assembly for a file
+Server.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/Server.cpp.s
+.PHONY : Server.cpp.s
+
 Solver.o: Solver.cpp.o
 
 .PHONY : Solver.o
@@ -839,6 +866,9 @@ help:
 	@echo "... SearchAlgo.o"
 	@echo "... SearchAlgo.i"
 	@echo "... SearchAlgo.s"
+	@echo "... Server.o"
+	@echo "... Server.i"
+	@echo "... Server.s"
 	@echo "... Solver.o"
 	@echo "... Solver.i"
 	@echo "... Solver.s"

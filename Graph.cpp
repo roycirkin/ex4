@@ -47,19 +47,15 @@ Graph::Graph(matrix::Matrix& m) {
 
                 if (j != (m.matrixGetWidth() - 1)) {
                     edges.push_back({(int)(i * m.matrixGetWidth() + j), (int)(i * m.matrixGetWidth() + j + 1)});
-                    //edges[i * m.matrixGetWidth() + j].push_back(i * m.matrixGetWidth() + j + 1);
                 }
                 if (j != 0) {
                     edges.push_back({(int)(i * m.matrixGetWidth() + j), (int)(i * m.matrixGetWidth() + j - 1)});
-                    //edges[i * m.matrixGetWidth() + j].push_back(i * m.matrixGetWidth() + j - 1);
                 }
                 if (i != (m.matrixGetHeight() - 1)) {
                     edges.push_back({(int)(i * m.matrixGetWidth() + j), (int)((i + 1) * m.matrixGetWidth() + j)});
-                    //edges[i * m.matrixGetWidth() + j].push_back((i + 1) * m.matrixGetWidth() + j);
                 }
                 if (i != 0) {
                     edges.push_back({(int)(i * m.matrixGetWidth() + j), (int)((i - 1) * m.matrixGetWidth() + j)});
-                    //edges[i * m.matrixGetWidth() + j].push_back((i - 1) * m.matrixGetWidth() + j);
                 }
                 
             }
@@ -130,6 +126,13 @@ void printGraph(Graph const& graph)
         cout << endl;
     }
 }
+
+
+bool Graph::getIsMatrix() const {
+    return isMatrix;
+}
+
+
 
 
 }

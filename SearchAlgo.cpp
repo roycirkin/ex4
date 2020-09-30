@@ -6,16 +6,18 @@
 
 namespace Algorithm {
 
-    double BFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    Path* BFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
 
         if (start == end) {
-            return 0;
+            Path* sol = new Path();
+            return sol;
         }
         if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
             throw WrongAssignment();
         }
-        //if graph is wrong
-        //throw WrongGraph();
+        if (!g.getIsMatrix()) {
+            throw WrongGraph();
+        }
 
         std::queue<int> bfsQueue;
         std::vector<double> bestPathTo;
@@ -42,17 +44,17 @@ namespace Algorithm {
             wasDeveloped[vertex] = true;
             for (auto newVer : g.getAdjList()[vertex]) {
                 bfsQueue.push(newVer);
-                if ((g.getCosts()[vertex] != -1) && (g.getCosts()[newVer] != -1) && (bestPathTo[vertex] != -1)) {
-                    if (bestPathTo[newVer] == -1) {
-                        bestPathTo[newVer] = g.getCosts()[newVer] +bestPathTo[vertex];
+                if ((g.getCosts()[vertex] == -1) || (g.getCosts()[newVer] == -1) || (bestPathTo[vertex] == -1)) {
+                    continue;
+                }
+                if (bestPathTo[newVer] == -1) {
+                    bestPathTo[newVer] = g.getCosts()[newVer] +bestPathTo[vertex];
+                    whereWeCameFrom[newVer] = vertex;
+                }
+                else {
+                    if ((g.getCosts()[newVer] + bestPathTo[vertex]) < bestPathTo[newVer]) {
+                        bestPathTo[newVer] = g.getCosts()[newVer] + bestPathTo[vertex];
                         whereWeCameFrom[newVer] = vertex;
-                    }
-                    else {
-                        if ((g.getCosts()[newVer] + bestPathTo[vertex]) < bestPathTo[newVer]) {
-                            bestPathTo[newVer] = g.getCosts()[newVer] + bestPathTo[vertex];
-                            whereWeCameFrom[newVer] = vertex;
-
-                        }
                     }
                 }
             }
@@ -62,18 +64,24 @@ namespace Algorithm {
         }
         std::cout << std::endl;
         std::cout << bestPathTo[end];
-        return bestPathTo[end];//???
+        std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
+        Path* solution = new Path(route, bestPathTo[end]);
+        return solution;
     }
 
 
 
-    double DFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    Path* DFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
 
     if (start == end) {
-        return 0;
+        Path* sol = new Path();
+        return sol;
     }
     if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
             throw WrongAssignment();
+    }
+    if (!g.getIsMatrix()) {
+            throw WrongGraph();
     }
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
@@ -94,7 +102,9 @@ namespace Algorithm {
     }
     std::cout << std::endl;
     std::cout << bestPathTo[end];
-    return bestPathTo[end];
+    std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
+    Path* solution = new Path(route, bestPathTo[end]);
+    return solution;
     }
 
 
@@ -111,13 +121,18 @@ namespace Algorithm {
     }
 
 
-    double AstarAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    Path* AstarAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
     if (start == end) {
-        return 0;
+        Path* sol = new Path();
+        return sol;
     }
     if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
         throw WrongAssignment();
     }
+    if (!g.getIsMatrix()) {
+            throw WrongGraph();
+    }
+    
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
     std::vector<int> whereWeCameFrom;
@@ -178,10 +193,12 @@ namespace Algorithm {
     }
     std::cout << std::endl;
     std::cout << bestPathTo[end];
-    return bestPathTo[end];
-    
-
+    std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
+    Path* solution = new Path(route, bestPathTo[end]);
+    return solution;
     }
+
+
     void AstarAlgo::developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const {
         developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
@@ -215,9 +232,41 @@ void developVertexGlobal(const Graphs::Graph& g, size_t vertex, std::vector<bool
                 }
             }
         }
-     }
+    }
 
+    const std::vector<directions> Path::getSolutionRoute() const {
+        return solutionRoute;
+    }
 
+    double Path::getRouteCost() const {
+        return routeCost;
+    }
+    Path::Path(){}
+    Path::Path(std::vector<directions> route, double cost) : routeCost(cost), solutionRoute(route) {}
+
+    std::vector<directions> getDierections(std::vector<int>& whereWeCameFrom, size_t start, size_t end, size_t width) {
+        std::vector<directions> dierections;
+        int currentVertex = end;
+        while (currentVertex != (int)start) {
+            if (whereWeCameFrom[currentVertex] == currentVertex - (int)width) {
+            dierections.push_back(down);
+            }
+            else if (whereWeCameFrom[currentVertex] == currentVertex + (int)width) {
+            dierections.push_back(up);
+            }
+            else if (whereWeCameFrom[currentVertex] == currentVertex - 1) {
+            dierections.push_back(right);
+            }
+            else if (whereWeCameFrom[currentVertex] == currentVertex + 1) {
+            dierections.push_back(left);
+            } else {
+                throw NoRoute();
+            }
+            currentVertex = whereWeCameFrom[currentVertex];
+        }
+        std::reverse(dierections.begin(), dierections.end());
+        return dierections;
+    }
 
 
 

@@ -17,6 +17,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/roy/ex4/Graph.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Graph.cpp.o"
   "/home/roy/ex4/Logger.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Logger.cpp.o"
   "/home/roy/ex4/SearchAlgo.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o"
+  "/home/roy/ex4/Server.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Server.cpp.o"
   "/home/roy/ex4/Solver.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Solver.cpp.o"
   "/home/roy/ex4/main.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/main.cpp.o"
   "/home/roy/ex4/matrix/ClassMatrix.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o"

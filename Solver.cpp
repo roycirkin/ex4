@@ -1,4 +1,5 @@
 #include "Solver.hpp"
+#include "SearchAlgo.hpp"
 
 namespace Solver {
 
@@ -13,15 +14,17 @@ GraphSolver<A>::GraphSolver(Graphs::Graph& graph, size_t start, size_t end)
     : graph(graph), start(start), end(end) {}
 
 template <class A>
-Status_solver GraphSolver<A>::solve(double* price) const {
+Status_solver GraphSolver<A>::solve() {
     try {
         Algorithm::SearchAlgo* alg = static_cast<Algorithm::SearchAlgo*>(new A());
         if (!alg) {
             throw Algorithm::noAlgorithmGiven();
         }
 
-        double routeCost = (*alg)(this->graph, this->start, this->end);
-        *price = routeCost;
+        Algorithm::Path* solution = (*alg)(this->graph, this->start, this->end);//send path as a reference and return void
+        price = solution->getRouteCost();
+        route = solution->getSolutionRoute();
+        delete solution;
         return success;
     } catch (Algorithm::NoRoute e) {
         e.print();
@@ -39,7 +42,10 @@ Status_solver GraphSolver<A>::solve(double* price) const {
 
 }
 
-
+template <class A>
+double GraphSolver<A>::getPrice() {
+    return price;
+}
 
 
 

@@ -3,36 +3,53 @@
 
 namespace Algorithm {
 
+enum directions {
+    up, down, right, left,
+};
+
+class Path {
+private:
+    double routeCost;
+    std::vector<directions> solutionRoute;
+public:
+    Path();
+    Path(std::vector<directions> route, double cost);
+    const std::vector<directions> getSolutionRoute() const;
+    double getRouteCost() const;
+};
+
+
+
 class SearchAlgo {
 
 public:
-    virtual double operator()(const Graphs::Graph& g, size_t start, size_t end) const = 0 ;
+    virtual Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const = 0;
 };
 
 
 class AstarAlgo : public SearchAlgo {
 
 public:
-    double operator()(const Graphs::Graph& g, size_t start, size_t end) const;
+    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
     void developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const;
 };
 class BFSAlgo : public SearchAlgo {
 
 public:
-    double operator()(const Graphs::Graph& g, size_t start, size_t end) const;
+    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
 };
 
 class DFSAlgo : public SearchAlgo {
 public:
-    double operator()(const Graphs::Graph& g, size_t start, size_t end) const;
+    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
     void developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDevelop,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const;
 };
 
 void developVertexGlobal(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom);
-
+std::vector<directions> getDierections(std::vector<int>& whereWeCameFrom, size_t start, size_t end, size_t width);
 
 
 class WrongAssignment {

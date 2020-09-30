@@ -17,6 +17,7 @@ class Graph
 private: 
 	vector<vector<int>> m_adjList;
     std::vector<double> m_costs;
+	bool isMatrix = false;
 
 public:
 	// construct a vector of vectors to represent an adjacency list
@@ -27,6 +28,7 @@ public:
     int getSize() const;
     const std::vector<vector<int>>& getAdjList() const;
 	const std::vector<double>& getCosts() const;
+	size_t getWidth() const;
 	friend void printGraph(Graph const& graph);
 };
  

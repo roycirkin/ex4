@@ -26,8 +26,8 @@
 },
 {
   "directory": "/home/roy/ex4/build",
-  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp",
-  "file": "/home/roy/ex4/Solver.cpp"
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp",
+  "file": "/home/roy/ex4/Graph.cpp"
 },
 {
   "directory": "/home/roy/ex4/build",
@@ -36,8 +36,8 @@
 },
 {
   "directory": "/home/roy/ex4/build",
-  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp",
-  "file": "/home/roy/ex4/Graph.cpp"
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp",
+  "file": "/home/roy/ex4/Solver.cpp"
 },
 {
   "directory": "/home/roy/ex4/build",

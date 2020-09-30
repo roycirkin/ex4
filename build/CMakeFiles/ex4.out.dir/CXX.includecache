@@ -16,39 +16,21 @@ map
 matrix/ClassMatrix.hpp
 /home/roy/ex4/matrix/ClassMatrix.hpp
 
-/home/roy/ex4/Logger.hpp
-memory
+/home/roy/ex4/SearchAlgo.cpp
+SearchAlgo.hpp
+/home/roy/ex4/SearchAlgo.hpp
+queue
 -
-fstream
+algorithm
 -
-string
+math.h
 -
-mutex
+limits
 -
 
 /home/roy/ex4/SearchAlgo.hpp
 Graph.hpp
 /home/roy/ex4/Graph.hpp
-
-/home/roy/ex4/Solver.hpp
-SearchAlgo.hpp
-/home/roy/ex4/SearchAlgo.hpp
-
-/home/roy/ex4/main.cpp
-Logger.hpp
-/home/roy/ex4/Logger.hpp
-Graph.hpp
-/home/roy/ex4/Graph.hpp
-matrix/ClassMatrix.hpp
-/home/roy/ex4/matrix/ClassMatrix.hpp
-Solver.hpp
-/home/roy/ex4/Solver.hpp
-SearchAlgo.hpp
-/home/roy/ex4/SearchAlgo.hpp
-iostream
--
-vector
--
 
 /home/roy/ex4/matrix/ClassMatrix.hpp
 Matrix.h

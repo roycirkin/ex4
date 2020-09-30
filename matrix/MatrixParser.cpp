@@ -3,6 +3,7 @@
 #include <regex>
 #include <iostream>
 #include <math.h>
+#include <system_error>
 
 namespace MatrixParsering {
 
@@ -28,7 +29,7 @@ matrix::Matrix& getMatrixFromFile(const std::string& path) {
     while(std::getline(file, line)) {
         std::smatch validityMatcher;
         if(!std::regex_match(line, validityMatcher, validity)) {
-            //throw //unvalid matrix;
+            throw std::system_error{errno, std::system_category()};
         }
 
         std::smatch matcher;

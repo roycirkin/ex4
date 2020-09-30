@@ -1,4 +1,5 @@
 #include "Graph.hpp"
+#include <algorithm>
 
 namespace Graphs {
 
@@ -40,7 +41,7 @@ Graph::Graph(matrix::Matrix& m) {
         for (size_t i = 0; i < m.matrixGetHeight(); ++i) {
             for (size_t j = 0; j < m.matrixGetWidth(); ++j) {
                 if ((m(i,j) < 1) && (m(i,j) != -1)) {
-                    throw unvalidCosts();
+                    return;
                 }
                 costs.push_back(m(i,j));
 
@@ -71,13 +72,16 @@ Graph::Graph(matrix::Matrix& m) {
         
             // insert at the end
             if ((edge.src < 0) || (edge.src > (int)costs.size()) || (edge.dest < 0) || (edge.dest > (int)costs.size())) {
-                throw unvalidCosts();
+                m_costs.clear();
+                m_adjList.clear();
+                return;
             }
             m_adjList[edge.src].push_back(edge.dest);
 
             // Uncomment below line for undirected graph
             // adjList[edge.dest].push_back(edge.src);
         }
+        isMatrix = true;
 
     }
     catch (unvalidCosts e) {
@@ -90,6 +94,18 @@ Graph::Graph(matrix::Matrix& m) {
 int Graph::getSize() const{
     return m_costs.size();
 }
+
+size_t Graph::getWidth() const {
+if (!isMatrix) {
+    return 0;
+}
+size_t counter = 1;
+while (std::count(m_adjList[counter - 1].begin(), m_adjList[counter - 1].end(), counter)) {
+counter++;
+}
+return counter;
+}
+
 
 const std::vector<vector<int>>& Graph::getAdjList() const{
     return m_adjList;

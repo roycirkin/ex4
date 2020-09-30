@@ -122,18 +122,18 @@ CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/ClassMatrix.cpp -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s
 
-CMakeFiles/ex4.out.dir/Solver.cpp.o: CMakeFiles/ex4.out.dir/flags.make
-CMakeFiles/ex4.out.dir/Solver.cpp.o: ../Solver.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ex4.out.dir/Solver.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp
+CMakeFiles/ex4.out.dir/Graph.cpp.o: CMakeFiles/ex4.out.dir/flags.make
+CMakeFiles/ex4.out.dir/Graph.cpp.o: ../Graph.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ex4.out.dir/Graph.cpp.o"
+	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp
 
-CMakeFiles/ex4.out.dir/Solver.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Solver.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Solver.cpp > CMakeFiles/ex4.out.dir/Solver.cpp.i
+CMakeFiles/ex4.out.dir/Graph.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Graph.cpp.i"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Graph.cpp > CMakeFiles/ex4.out.dir/Graph.cpp.i
 
-CMakeFiles/ex4.out.dir/Solver.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Solver.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Solver.cpp -o CMakeFiles/ex4.out.dir/Solver.cpp.s
+CMakeFiles/ex4.out.dir/Graph.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Graph.cpp.s"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Graph.cpp -o CMakeFiles/ex4.out.dir/Graph.cpp.s
 
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: ../SearchAlgo.cpp
@@ -148,18 +148,18 @@ CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s"
 	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/SearchAlgo.cpp -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s
 
-CMakeFiles/ex4.out.dir/Graph.cpp.o: CMakeFiles/ex4.out.dir/flags.make
-CMakeFiles/ex4.out.dir/Graph.cpp.o: ../Graph.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ex4.out.dir/Graph.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp
+CMakeFiles/ex4.out.dir/Solver.cpp.o: CMakeFiles/ex4.out.dir/flags.make
+CMakeFiles/ex4.out.dir/Solver.cpp.o: ../Solver.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ex4.out.dir/Solver.cpp.o"
+	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp
 
-CMakeFiles/ex4.out.dir/Graph.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Graph.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Graph.cpp > CMakeFiles/ex4.out.dir/Graph.cpp.i
+CMakeFiles/ex4.out.dir/Solver.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Solver.cpp.i"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Solver.cpp > CMakeFiles/ex4.out.dir/Solver.cpp.i
 
-CMakeFiles/ex4.out.dir/Graph.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Graph.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Graph.cpp -o CMakeFiles/ex4.out.dir/Graph.cpp.s
+CMakeFiles/ex4.out.dir/Solver.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Solver.cpp.s"
+	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Solver.cpp -o CMakeFiles/ex4.out.dir/Solver.cpp.s
 
 CMakeFiles/ex4.out.dir/Logger.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/Logger.cpp.o: ../Logger.cpp
@@ -194,9 +194,9 @@ ex4_out_OBJECTS = \
 "CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o" \
 "CMakeFiles/ex4.out.dir/matrix/Matrix.c.o" \
 "CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o" \
-"CMakeFiles/ex4.out.dir/Solver.cpp.o" \
-"CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o" \
 "CMakeFiles/ex4.out.dir/Graph.cpp.o" \
+"CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o" \
+"CMakeFiles/ex4.out.dir/Solver.cpp.o" \
 "CMakeFiles/ex4.out.dir/Logger.cpp.o" \
 "CMakeFiles/ex4.out.dir/main.cpp.o"
 
@@ -208,9 +208,9 @@ ex4.out: CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o
 ex4.out: CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o
 ex4.out: CMakeFiles/ex4.out.dir/matrix/Matrix.c.o
 ex4.out: CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o
-ex4.out: CMakeFiles/ex4.out.dir/Solver.cpp.o
-ex4.out: CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o
 ex4.out: CMakeFiles/ex4.out.dir/Graph.cpp.o
+ex4.out: CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o
+ex4.out: CMakeFiles/ex4.out.dir/Solver.cpp.o
 ex4.out: CMakeFiles/ex4.out.dir/Logger.cpp.o
 ex4.out: CMakeFiles/ex4.out.dir/main.cpp.o
 ex4.out: CMakeFiles/ex4.out.dir/build.make

@@ -2,17 +2,26 @@
 
 namespace Solver {
 
-GraphSolver::GraphSolver(Graphs::Graph& graph, size_t start, size_t end, Algorithm::SearchAlgo* alg)
-    : graph(graph), start(start), end(end), alg(alg) {}
+// Explicit template instantiation
+template class GraphSolver<Algorithm::BFSAlgo>;
+template class GraphSolver<Algorithm::DFSAlgo>;
+template class GraphSolver<Algorithm::AstarAlgo>;
 
 
-Status_solver GraphSolver::solve(size_t* price) const {
+template <class A> 
+GraphSolver<A>::GraphSolver(Graphs::Graph& graph, size_t start, size_t end)
+    : graph(graph), start(start), end(end) {}
+
+template <class A>
+Status_solver GraphSolver<A>::solve(double* price) const {
     try {
-        size_t routeCost = this->alg->solve(this->graph, this->start, this->end);
+        Algorithm::SearchAlgo* alg = static_cast<Algorithm::SearchAlgo*>(new A());
+        if (!alg) {
+            throw Algorithm::noAlgorithmGiven();
+        }
+
+        double routeCost = (*alg)(this->graph, this->start, this->end);
         *price = routeCost;
-
-
-
         return success;
     } catch (Algorithm::NoRoute e) {
         e.print();
@@ -23,6 +32,9 @@ Status_solver GraphSolver::solve(size_t* price) const {
     } catch (Algorithm::WrongAssignment e) {
         e.print();
         return wrong_assignment;
+    } catch (Algorithm::noAlgorithmGiven e) {
+        e.print();
+        return no_such_algorithm;
     }
 
 }

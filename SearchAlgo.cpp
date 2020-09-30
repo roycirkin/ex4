@@ -1,10 +1,12 @@
 #include "SearchAlgo.hpp"
 #include <queue>
-
+#include <algorithm>
+#include <math.h>
+#include <limits>
 
 namespace Algorithm {
 
-    size_t BFSAlgo::solve(const Graphs::Graph& g, size_t start, size_t end) const{
+    double BFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
 
         if (start == end) {
             return 0;
@@ -18,13 +20,15 @@ namespace Algorithm {
         std::queue<int> bfsQueue;
         std::vector<double> bestPathTo;
         std::vector<bool> wasDeveloped;
+        std::vector<int> whereWeCameFrom;
         bestPathTo.resize(g.getSize());
         wasDeveloped.resize(g.getSize());
+        whereWeCameFrom.resize(g.getSize());
         for (size_t it = 0; it < bestPathTo.size(); ++it) {
             bestPathTo[it] = -1;
             wasDeveloped[it] = false;
-            if (it == 0) {
-                bestPathTo[it] = g.getCosts()[it];
+            if (it == start) {
+                bestPathTo[start] = g.getCosts()[start];
             }
         }
 
@@ -41,10 +45,13 @@ namespace Algorithm {
                 if ((g.getCosts()[vertex] != -1) && (g.getCosts()[newVer] != -1) && (bestPathTo[vertex] != -1)) {
                     if (bestPathTo[newVer] == -1) {
                         bestPathTo[newVer] = g.getCosts()[newVer] +bestPathTo[vertex];
+                        whereWeCameFrom[newVer] = vertex;
                     }
                     else {
                         if ((g.getCosts()[newVer] + bestPathTo[vertex]) < bestPathTo[newVer]) {
                             bestPathTo[newVer] = g.getCosts()[newVer] + bestPathTo[vertex];
+                            whereWeCameFrom[newVer] = vertex;
+
                         }
                     }
                 }
@@ -60,7 +67,7 @@ namespace Algorithm {
 
 
 
-    size_t DFSAlgo::solve(const Graphs::Graph& g, size_t start, size_t end) const{
+    double DFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
 
     if (start == end) {
         return 0;
@@ -70,16 +77,18 @@ namespace Algorithm {
     }
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
+    std::vector<int> whereWeCameFrom;
     bestPathTo.resize(g.getSize());
     wasDeveloped.resize(g.getSize());
+    whereWeCameFrom.resize(g.getSize());
     for (size_t it = 0; it < bestPathTo.size(); ++it) {
         bestPathTo[it] = -1;
         wasDeveloped[it] = false;
-        if (it == 0) {
+        if (it == start) {
             bestPathTo[it] = g.getCosts()[it];
         }
     }
-    developVertex(g, 0, wasDeveloped, bestPathTo);
+    developVertex(g, start, wasDeveloped, bestPathTo, whereWeCameFrom);
     if (bestPathTo[end] == -1) {
         throw NoRoute();
     }
@@ -91,8 +100,96 @@ namespace Algorithm {
 
 
     void DFSAlgo::developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
-    std::vector<double>& bestPathTo) const {
+    std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const {
+        developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
+        for (auto newVer : g.getAdjList()[vertex]) {
+            if (!wasDeveloped[newVer]) {
+                developVertex(g, newVer, wasDeveloped, bestPathTo, whereWeCameFrom);
+            }
+        }
 
+    }
+
+
+    double AstarAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    if (start == end) {
+        return 0;
+    }
+    if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
+        throw WrongAssignment();
+    }
+    std::vector<double> bestPathTo;
+    std::vector<bool> wasDeveloped;
+    std::vector<int> whereWeCameFrom;
+    std::vector<double> huristic;
+    std::vector<int> vertexPriorityQueue;
+    bestPathTo.resize(g.getSize());
+    wasDeveloped.resize(g.getSize());
+    whereWeCameFrom.resize(g.getSize());
+    huristic.resize(g.getSize());
+    int endY = end / g.getWidth();
+    int endX = end % g.getWidth();
+
+    for (size_t it = 0; it < bestPathTo.size(); ++it) {
+        bestPathTo[it] = -1;
+        wasDeveloped[it] = false;
+        if (it == start) {
+            bestPathTo[it] = g.getCosts()[it];
+        }
+
+        int posY = it / g.getWidth();
+        int posX = it % g.getWidth();
+        huristic[it] = std::sqrt(std::pow((double)(posX - endX), 2) + std::pow((double)(posY - endY), 2));
+    }
+    vertexPriorityQueue.push_back(start);
+    while (!vertexPriorityQueue.empty()) {
+        double min = std::numeric_limits<double>::max();
+        int nextVertexToDevelop;
+        for (auto ver : vertexPriorityQueue) {
+            if ((bestPathTo[ver] != -1) && (bestPathTo[ver] + huristic[ver] < min)) {
+                min = bestPathTo[ver] + huristic[ver];
+                nextVertexToDevelop = ver;
+            }
+        }
+
+        vertexPriorityQueue.erase(std::remove(vertexPriorityQueue.begin(), vertexPriorityQueue.end(), nextVertexToDevelop),
+         vertexPriorityQueue.end());
+        developVertex(g, nextVertexToDevelop, wasDeveloped, bestPathTo, whereWeCameFrom);
+        if (nextVertexToDevelop == (int)end) {
+            break;
+        }
+        for (auto newVer : g.getAdjList()[nextVertexToDevelop]) {
+            if (!wasDeveloped[newVer]) {
+                if (!std::count(vertexPriorityQueue.begin(), vertexPriorityQueue.end(), newVer)) {
+                    vertexPriorityQueue.push_back(newVer);
+                }
+            }
+        }
+        for (size_t i = 0; i < vertexPriorityQueue.size(); ++i) {
+            int vertex = vertexPriorityQueue[i];
+            if (g.getCosts()[vertex] == -1) {
+                vertexPriorityQueue.erase(vertexPriorityQueue.begin() + i);
+            }
+        }
+
+    }
+    if (bestPathTo[end] == -1) {
+        throw NoRoute();
+    }
+    std::cout << std::endl;
+    std::cout << bestPathTo[end];
+    return bestPathTo[end];
+    
+
+    }
+    void AstarAlgo::developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const {
+        developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
+    }
+
+
+void developVertexGlobal(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) {
         if (wasDeveloped[vertex] == true) {
             return;
         }
@@ -106,26 +203,26 @@ namespace Algorithm {
                 continue;
             }
             if (bestPathTo[newVer] == -1) {
-                bestPathTo[newVer] = g.getCosts()[newVer] +bestPathTo[vertex];
+                bestPathTo[newVer] = g.getCosts()[newVer] + bestPathTo[vertex];
+                whereWeCameFrom[newVer] = vertex;
+
             }
             else {
                 if ((g.getCosts()[newVer] + bestPathTo[vertex]) < bestPathTo[newVer]) {
                     bestPathTo[newVer] = g.getCosts()[newVer] + bestPathTo[vertex];
+                    whereWeCameFrom[newVer] = vertex;
+
                 }
             }
         }
-        for (auto newVer : g.getAdjList()[vertex]) {
-            developVertex(g, newVer, wasDeveloped, bestPathTo);
-        }
+     }
 
-    }
-
-
-
-
-    
 
 
 
 
 }
+
+
+
+

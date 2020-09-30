@@ -4,18 +4,18 @@
 namespace Solver {
 
 enum Status_solver {
-    success, no_path, wrong_graph, wrong_assignment
+    success, no_path, wrong_graph, wrong_assignment, no_such_algorithm,
 };
 
+template <class A>
 class GraphSolver {
 private:
     Graphs::Graph graph;
     size_t start;
     size_t end;
-    Algorithm::SearchAlgo* alg;
 public:
-    GraphSolver(Graphs::Graph& graph, size_t start, size_t end, Algorithm::SearchAlgo* alg);
-    Status_solver solve(size_t* price) const;
+    GraphSolver(Graphs::Graph& graph, size_t start, size_t end);
+    Status_solver solve(double* price) const;
 
 };
 

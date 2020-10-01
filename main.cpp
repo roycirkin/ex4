@@ -2,7 +2,9 @@
 #include "Graph.hpp"
 #include "matrix/ClassMatrix.hpp"
 #include "Solver.hpp"
+#include "Server.hpp"
 #include "SearchAlgo.hpp"
+#include "ClientHandler.hpp"
 #include <iostream>
 #include <vector>
 #include <errno.h>
@@ -13,29 +15,36 @@ namespace boot {
 class Main{
 public:
     void main(int argc, char * argv[]) {
-        uint16_t port = 0;
-        //uint8_t server_type = 'p';
+        try {
+            uint16_t port = 0;
+            //uint8_t server_type = 'p';
 
-        if ((argc <= 1) || (!(port = std::atoi(argv[1])))) {
-            Logger::log(Logger::Level::Error, "wrong port input ");
-            //throw
-        }
-
-        if (argc > 2) {
-            if (std::string(argv[2])== std::string("parallel")) {
-                //server_type = 'p';
-            } else if (std::string(argv[2])== std::string("serial")) {
-                //server_type = 's';
-                Logger::log(Logger::Level::Error, "unsuported server");
-                //throw
-            } else {
-                Logger::log(Logger::Level::Error, "unknown server type");
-                //throw
+            if ((argc <= 1) || (!(port = std::atoi(argv[1])))) {
+                Logger::log(Logger::Level::Error, "wrong port input ");
+                    throw ServerSide::UnknownPortError();
             }
+
+            if (argc > 2) {
+                if (std::string(argv[2])== std::string("parallel")) {
+                    //server_type = 'p';
+                } else if (std::string(argv[2])== std::string("serial")) {
+                    //server_type = 's';
+                    Logger::log(Logger::Level::Error, "unsuported server");
+                    throw ServerSide::UnSuportedServerError();
+                } else {
+                    Logger::log(Logger::Level::Error, "unknown server type");
+                    throw ServerSide::UnSuportedServerError();
+                }
+            }
+            ServerSide::MyParallelServer server;
+            ClientHandle::GraphHandler c;
+            //server.open(port, c);
+
+        } catch (ServerSide::UnSuportedServerError e){
+            e.print();
+        } catch (ServerSide::UnknownPortError e){
+            e.print();
         }
-        
-
-
 
     }
 };
@@ -84,7 +93,7 @@ int main(int argc, char* argv[]) {
     m.matrixSetValue(1, 2, 500);
     m.matrixSetValue(1, 3, -1);
     m.matrixSetValue(2, 0, 5);
-    m.matrixSetValue(2, 1, 500);
+    m.matrixSetValue(2, 1, 5000);
     m.matrixSetValue(2, 2, 500);
     m.matrixSetValue(2, 3, 5);
     m.matrixSetValue(3, 0, 5);
@@ -95,12 +104,12 @@ int main(int argc, char* argv[]) {
 
 
 
-    Graphs::Graph graph2(m);
+    Graphs::MatrixGraph graph2(m);
     Graphs::printGraph(graph2);
 
     double price = 0;
     
-    Solver::GraphSolver<Algorithm::DFSAlgo> solver(graph2, 0, 11);
+    Solver::GraphSolver<Algorithm::AstarAlgo> solver(graph2, 0, 11);
     solver.solve();
     price = solver.getPrice();
     price++;

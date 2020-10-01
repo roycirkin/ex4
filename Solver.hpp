@@ -10,14 +10,14 @@ enum Status_solver {
 template <class A>
 class GraphSolver {
 private:
-    Graphs::Graph graph;
+    Graphs::MatrixGraph graph;
     size_t start;
     size_t end;
     double price;
     std::vector<Algorithm::directions> route;
     
 public:
-    GraphSolver(Graphs::Graph& graph, size_t start, size_t end);
+    GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end);
     Status_solver solve();
     double getPrice();
 

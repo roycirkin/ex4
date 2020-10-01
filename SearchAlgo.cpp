@@ -5,19 +5,17 @@
 #include <limits>
 
 namespace Algorithm {
-
-    Path* BFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+// -1 = no path to that vertex
+    Path BFSAlgo::operator()( Graphs::MatrixGraph& g, size_t start, size_t end) {
 
         if (start == end) {
-            Path* sol = new Path();
+            Path sol;
             return sol;
         }
         if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
             throw WrongAssignment();
         }
-        if (!g.getIsMatrix()) {
-            throw WrongGraph();
-        }
+
 
         std::queue<int> bfsQueue;
         std::vector<double> bestPathTo;
@@ -26,6 +24,7 @@ namespace Algorithm {
         bestPathTo.resize(g.getSize());
         wasDeveloped.resize(g.getSize());
         whereWeCameFrom.resize(g.getSize());
+        
         for (size_t it = 0; it < bestPathTo.size(); ++it) {
             bestPathTo[it] = -1;
             wasDeveloped[it] = false;
@@ -33,7 +32,7 @@ namespace Algorithm {
                 bestPathTo[start] = g.getCosts()[start];
             }
         }
-
+    //starts the bfs
         bfsQueue.push(start);
         while (!bfsQueue.empty()) {
             int vertex = bfsQueue.front();
@@ -42,6 +41,7 @@ namespace Algorithm {
                 continue;
             }
             wasDeveloped[vertex] = true;
+            //update the vertex's neighberhoods
             for (auto newVer : g.getAdjList()[vertex]) {
                 bfsQueue.push(newVer);
                 if ((g.getCosts()[vertex] == -1) || (g.getCosts()[newVer] == -1) || (bestPathTo[vertex] == -1)) {
@@ -59,29 +59,26 @@ namespace Algorithm {
                 }
             }
         }
+
         if (bestPathTo[end] == -1) {
             throw NoRoute();
         }
-        std::cout << std::endl;
-        std::cout << bestPathTo[end];
+
         std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
-        Path* solution = new Path(route, bestPathTo[end]);
+        Path solution(route, bestPathTo[end]);
         return solution;
     }
 
 
 
-    Path* DFSAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    Path DFSAlgo::operator()(Graphs::MatrixGraph& g, size_t start, size_t end) {
 
     if (start == end) {
-        Path* sol = new Path();
+        Path sol;
         return sol;
     }
     if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
             throw WrongAssignment();
-    }
-    if (!g.getIsMatrix()) {
-            throw WrongGraph();
     }
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
@@ -89,6 +86,7 @@ namespace Algorithm {
     bestPathTo.resize(g.getSize());
     wasDeveloped.resize(g.getSize());
     whereWeCameFrom.resize(g.getSize());
+
     for (size_t it = 0; it < bestPathTo.size(); ++it) {
         bestPathTo[it] = -1;
         wasDeveloped[it] = false;
@@ -96,24 +94,26 @@ namespace Algorithm {
             bestPathTo[it] = g.getCosts()[it];
         }
     }
+    //starts the dfs recursion from the start vertex
     developVertex(g, start, wasDeveloped, bestPathTo, whereWeCameFrom);
     if (bestPathTo[end] == -1) {
         throw NoRoute();
     }
-    std::cout << std::endl;
-    std::cout << bestPathTo[end];
+
     std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
-    Path* solution = new Path(route, bestPathTo[end]);
+    Path solution(route, bestPathTo[end]);
     return solution;
     }
 
 
 
-    void DFSAlgo::developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
-    std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const {
+    void DFSAlgo::developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+    std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom)  {
+        //develop that vertex
         developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
         for (auto newVer : g.getAdjList()[vertex]) {
             if (!wasDeveloped[newVer]) {
+                //if the neighber hasnt developed yet, develop him
                 developVertex(g, newVer, wasDeveloped, bestPathTo, whereWeCameFrom);
             }
         }
@@ -121,17 +121,16 @@ namespace Algorithm {
     }
 
 
-    Path* AstarAlgo::operator()(const Graphs::Graph& g, size_t start, size_t end) const{
+    Path AstarAlgo::operator()( Graphs::MatrixGraph& g, size_t start, size_t end) {
     if (start == end) {
-        Path* sol = new Path();
+        Path sol;
         return sol;
     }
     if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
         throw WrongAssignment();
     }
-    if (!g.getIsMatrix()) {
-            throw WrongGraph();
-    }
+    
+
     
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
@@ -142,8 +141,11 @@ namespace Algorithm {
     wasDeveloped.resize(g.getSize());
     whereWeCameFrom.resize(g.getSize());
     huristic.resize(g.getSize());
-    int endY = end / g.getWidth();
-    int endX = end % g.getWidth();
+    size_t width = g.getWidth();
+
+    //the end point
+    int endY = end / width;
+    int endX = end % width;
 
     for (size_t it = 0; it < bestPathTo.size(); ++it) {
         bestPathTo[it] = -1;
@@ -151,12 +153,17 @@ namespace Algorithm {
         if (it == start) {
             bestPathTo[it] = g.getCosts()[it];
         }
+        //the current point
+        int posY = it / width;
+        int posX = it % width;
 
-        int posY = it / g.getWidth();
-        int posX = it % g.getWidth();
+        //huristic = air distance from the destination
         huristic[it] = std::sqrt(std::pow((double)(posX - endX), 2) + std::pow((double)(posY - endY), 2));
     }
+    
+    //starts the A*
     vertexPriorityQueue.push_back(start);
+    //checks what is the best vertex to continue delevoping
     while (!vertexPriorityQueue.empty()) {
         double min = std::numeric_limits<double>::max();
         int nextVertexToDevelop;
@@ -167,12 +174,16 @@ namespace Algorithm {
             }
         }
 
+        //taking out the developed vertexes
         vertexPriorityQueue.erase(std::remove(vertexPriorityQueue.begin(), vertexPriorityQueue.end(), nextVertexToDevelop),
          vertexPriorityQueue.end());
+        //developing the most promising vertex
         developVertex(g, nextVertexToDevelop, wasDeveloped, bestPathTo, whereWeCameFrom);
+        //if we developed the last vertex - stop
         if (nextVertexToDevelop == (int)end) {
             break;
         }
+
         for (auto newVer : g.getAdjList()[nextVertexToDevelop]) {
             if (!wasDeveloped[newVer]) {
                 if (!std::count(vertexPriorityQueue.begin(), vertexPriorityQueue.end(), newVer)) {
@@ -180,6 +191,8 @@ namespace Algorithm {
                 }
             }
         }
+
+        //taking out the "b" vertexes
         for (size_t i = 0; i < vertexPriorityQueue.size(); ++i) {
             int vertex = vertexPriorityQueue[i];
             if (g.getCosts()[vertex] == -1) {
@@ -191,21 +204,20 @@ namespace Algorithm {
     if (bestPathTo[end] == -1) {
         throw NoRoute();
     }
-    std::cout << std::endl;
-    std::cout << bestPathTo[end];
+
     std::vector<directions> route = getDierections(whereWeCameFrom, start, end, g.getWidth());
-    Path* solution = new Path(route, bestPathTo[end]);
+    Path solution(route, bestPathTo[end]);
     return solution;
     }
 
 
-    void AstarAlgo::developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
-     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const {
+    void AstarAlgo::developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) {
         developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
     }
 
-
-void developVertexGlobal(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+//checks the best path to the vertex's neighbors
+void developVertexGlobal( Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) {
         if (wasDeveloped[vertex] == true) {
             return;

@@ -1,6 +1,7 @@
 #pragma once
 #include <sstream>
 #include "Solver.hpp"
+#include "algorithm"
 
 
 namespace ClientHandle {
@@ -17,12 +18,16 @@ class AlgorithmClientHandler  : public  ClientHandler{
 
 };
 
-template <class T>
+
 class GraphHandler : public AlgorithmClientHandler{
+public:
+    GraphHandler(){}
+    void handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) {
+         std::ignore = inputStream;
+         std::ignore = outputSTream;
 
-Solver::GraphSolver<T> solver;
-
-void findGraphPath(Graphs::Graph& g, size_t start, size_t end);
+    }
+    void findGraphPath();
 
 };
 

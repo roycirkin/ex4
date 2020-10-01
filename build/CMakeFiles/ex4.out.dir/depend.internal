@@ -27,6 +27,7 @@ CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o
 CMakeFiles/ex4.out.dir/Server.cpp.o
  /home/roy/ex4/ClientHandler.hpp
  /home/roy/ex4/Graph.hpp
+ /home/roy/ex4/Logger.hpp
  /home/roy/ex4/SearchAlgo.hpp
  /home/roy/ex4/Server.cpp
  /home/roy/ex4/Server.hpp
@@ -43,9 +44,11 @@ CMakeFiles/ex4.out.dir/Solver.cpp.o
  /home/roy/ex4/matrix/ErrorCode.h
  /home/roy/ex4/matrix/Matrix.h
 CMakeFiles/ex4.out.dir/main.cpp.o
+ /home/roy/ex4/ClientHandler.hpp
  /home/roy/ex4/Graph.hpp
  /home/roy/ex4/Logger.hpp
  /home/roy/ex4/SearchAlgo.hpp
+ /home/roy/ex4/Server.hpp
  /home/roy/ex4/Solver.hpp
  /home/roy/ex4/main.cpp
  /home/roy/ex4/matrix/ClassMatrix.hpp

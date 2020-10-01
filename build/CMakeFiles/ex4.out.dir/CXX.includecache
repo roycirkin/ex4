@@ -6,12 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/roy/ex4/ClientHandler.hpp
-sstream
--
-Solver.hpp
-/home/roy/ex4/Solver.hpp
-
 /home/roy/ex4/Graph.hpp
 iostream
 -
@@ -22,27 +16,21 @@ map
 matrix/ClassMatrix.hpp
 /home/roy/ex4/matrix/ClassMatrix.hpp
 
+/home/roy/ex4/SearchAlgo.cpp
+SearchAlgo.hpp
+/home/roy/ex4/SearchAlgo.hpp
+queue
+-
+algorithm
+-
+math.h
+-
+limits
+-
+
 /home/roy/ex4/SearchAlgo.hpp
 Graph.hpp
 /home/roy/ex4/Graph.hpp
-
-/home/roy/ex4/Server.cpp
-Server.hpp
-/home/roy/ex4/Server.hpp
-errno.h
--
-system_error
--
-sys/socket.h
--
-
-/home/roy/ex4/Server.hpp
-ClientHandler.hpp
-/home/roy/ex4/ClientHandler.hpp
-
-/home/roy/ex4/Solver.hpp
-SearchAlgo.hpp
-/home/roy/ex4/SearchAlgo.hpp
 
 /home/roy/ex4/matrix/ClassMatrix.hpp
 Matrix.h

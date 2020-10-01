@@ -19,20 +19,27 @@ class Graph
 private: 
 	vector<vector<int>> m_adjList;
     std::vector<double> m_costs;
-	bool isMatrix = false;
 
 public:
-	// construct a vector of vectors to represent an adjacency list
 
-	// Graph Constructor
-	Graph(matrix::Matrix& m);
+	Graph();
 	Graph(vector<Edge> const &edges, std::vector<double>&  costs);
     int getSize() const;
-    const std::vector<vector<int>>& getAdjList() const;
-	const std::vector<double>& getCosts() const;
-	bool getIsMatrix() const;
-	size_t getWidth() const;
+    std::vector<vector<int>>& getAdjList() ;
+	std::vector<double>& getCosts() ;
+	size_t getWidth() ;
+	void setCosts(std::vector<double> costs);
+	void setAdjList (std::vector<vector<int>> adj);
 	friend void printGraph(Graph const& graph);
+};
+
+class MatrixGraph : public Graph{
+public:
+	MatrixGraph();
+	MatrixGraph(matrix::Matrix& m);
+	size_t getWidth() ;
+
+
 };
  
 // print adjacency list representation of graph

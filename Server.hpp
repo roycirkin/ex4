@@ -6,6 +6,7 @@ namespace ServerSide {
 //interface
 class Server {
 public:
+    static const size_t backlogSize = 20;
     Server();
     void virtual open(int port, ClientHandle::ClientHandler& c) = 0;//change the void
     void virtual stop() = 0;
@@ -24,12 +25,27 @@ private:
 class MyParallelServer : public Server {
 public:
     MyParallelServer();
+    //opening the socket and operates the clientHandler
     void virtual open(int port, ClientHandle::ClientHandler& c);
+    //stopping the communication
+    void virtual stop();
 
 
 
 };
 
+class UnSuportedServerError{
+public:
+    void print() {
+        std::cerr << "the program doesnt support such server";
+    }
+};
+class UnknownPortError{
+public:
+    void print() {
+        std::cerr << "unkown port";
+    }
+};
 
 
 

@@ -14,6 +14,7 @@ private:
 public:
     Path();
     Path(std::vector<directions> route, double cost);
+    //returns the route of the solution path
     const std::vector<directions> getSolutionRoute() const;
     double getRouteCost() const;
 };
@@ -23,32 +24,37 @@ public:
 class SearchAlgo {
 
 public:
-    virtual Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const = 0;
+    //operating the search algorithm
+    virtual Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end)  = 0;
 };
 
 
 class AstarAlgo : public SearchAlgo {
 
 public:
-    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
-    void developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
-     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const;
+    Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
+    //develops a single vertex in the graph
+    void developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
 };
 class BFSAlgo : public SearchAlgo {
 
 public:
-    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
+    Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
 };
 
 class DFSAlgo : public SearchAlgo {
 public:
-    Path* operator()(const Graphs::Graph& g, size_t start, size_t end) const;
-    void developVertex(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDevelop,
-     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) const;
+    Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
+    //develops a single vertex in the graph - recursion
+    void developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDevelop,
+     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
 };
 
-void developVertexGlobal(const Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
+//develops a single vertex in the graph
+void developVertexGlobal( Graphs::Graph& g, size_t vertex, std::vector<bool>& wasDeveloped,
      std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom);
+// returns the route
 std::vector<directions> getDierections(std::vector<int>& whereWeCameFrom, size_t start, size_t end, size_t width);
 
 

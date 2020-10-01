@@ -3,6 +3,13 @@
 
 namespace Graphs {
 
+void Graph::setCosts(std::vector<double> costs) {
+    m_costs = costs;
+}
+void Graph::setAdjList (std::vector<vector<int>> adj) {
+    m_adjList = adj;
+}
+
 // Graph Constructor
 Graph::Graph(vector<Edge> const &edges, std::vector<double>& costs) {
     try {
@@ -34,10 +41,15 @@ Graph::Graph(vector<Edge> const &edges, std::vector<double>& costs) {
 
 }
 
-Graph::Graph(matrix::Matrix& m) {
+Graph::Graph() {}
+
+MatrixGraph::MatrixGraph(matrix::Matrix& m) {
+    Graph();
     try {
         std::vector<double> costs;
         std::vector<Edge> edges;
+
+        //making the edges
         for (size_t i = 0; i < m.matrixGetHeight(); ++i) {
             for (size_t j = 0; j < m.matrixGetWidth(); ++j) {
                 if ((m(i,j) < 1) && (m(i,j) != -1)) {
@@ -61,24 +73,21 @@ Graph::Graph(matrix::Matrix& m) {
             }
         }
 
-        m_adjList.resize(costs.size());
-        m_costs = costs;
+        getAdjList().resize(costs.size());
+        getCosts() = costs;
         // add edges to the directed graph
         for (auto &edge: edges) {
         
             // insert at the end
             if ((edge.src < 0) || (edge.src > (int)costs.size()) || (edge.dest < 0) || (edge.dest > (int)costs.size())) {
-                m_costs.clear();
-                m_adjList.clear();
+                getCosts().clear();
+                getAdjList().clear();
                 return;
             }
-            m_adjList[edge.src].push_back(edge.dest);
+            getAdjList()[edge.src].push_back(edge.dest);
 
-            // Uncomment below line for undirected graph
-            // adjList[edge.dest].push_back(edge.src);
         }
-        isMatrix = true;
-
+         
     }
     catch (unvalidCosts e) {
         e.printError();
@@ -91,23 +100,20 @@ int Graph::getSize() const{
     return m_costs.size();
 }
 
-size_t Graph::getWidth() const {
-if (!isMatrix) {
-    return 0;
-}
+size_t MatrixGraph::getWidth() {
 size_t counter = 1;
-while (std::count(m_adjList[counter - 1].begin(), m_adjList[counter - 1].end(), counter)) {
+while (std::count(getAdjList()[counter - 1].begin(), getAdjList()[counter - 1].end(), counter)) {
 counter++;
 }
 return counter;
 }
 
 
-const std::vector<vector<int>>& Graph::getAdjList() const{
+std::vector<vector<int>>& Graph::getAdjList() {
     return m_adjList;
 }
 
-const std::vector<double>& Graph::getCosts() const{
+std::vector<double>& Graph::getCosts() {
     return m_costs;
 }
 
@@ -128,9 +134,7 @@ void printGraph(Graph const& graph)
 }
 
 
-bool Graph::getIsMatrix() const {
-    return isMatrix;
-}
+
 
 
 

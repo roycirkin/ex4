@@ -37,7 +37,7 @@ public:
 
 class MatrixGraph : public Graph{
 public:
-	MatrixGraph();
+	MatrixGraph(){}
 	MatrixGraph(matrix::Matrix& m);
 	size_t getWidth() ;
 

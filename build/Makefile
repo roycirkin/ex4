@@ -547,6 +547,33 @@ ClientHandler.cpp.s:
 	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/ClientHandler.cpp.s
 .PHONY : ClientHandler.cpp.s
 
+FileExceptions.o: FileExceptions.cpp.o
+
+.PHONY : FileExceptions.o
+
+# target to build an object file
+FileExceptions.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/FileExceptions.cpp.o
+.PHONY : FileExceptions.cpp.o
+
+FileExceptions.i: FileExceptions.cpp.i
+
+.PHONY : FileExceptions.i
+
+# target to preprocess a source file
+FileExceptions.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/FileExceptions.cpp.i
+.PHONY : FileExceptions.cpp.i
+
+FileExceptions.s: FileExceptions.cpp.s
+
+.PHONY : FileExceptions.s
+
+# target to generate assembly for a file
+FileExceptions.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/FileExceptions.cpp.s
+.PHONY : FileExceptions.cpp.s
+
 Graph.o: Graph.cpp.o
 
 .PHONY : Graph.o
@@ -887,6 +914,9 @@ help:
 	@echo "... ClientHandler.o"
 	@echo "... ClientHandler.i"
 	@echo "... ClientHandler.s"
+	@echo "... FileExceptions.o"
+	@echo "... FileExceptions.i"
+	@echo "... FileExceptions.s"
 	@echo "... Graph.o"
 	@echo "... Graph.i"
 	@echo "... Graph.s"

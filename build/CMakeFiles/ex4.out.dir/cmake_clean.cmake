@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/ex4.out.dir/ClientHandler.cpp.o"
+  "CMakeFiles/ex4.out.dir/FileExceptions.cpp.o"
   "CMakeFiles/ex4.out.dir/Graph.cpp.o"
   "CMakeFiles/ex4.out.dir/Logger.cpp.o"
   "CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o"

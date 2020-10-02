@@ -20,12 +20,14 @@ public:
 };
 
 
-
 class SearchAlgo {
 
 public:
     //operating the search algorithm
-    virtual Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end)  = 0;
+    virtual Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) = 0;
+    virtual std::string name() = 0;
+    //virtual ~SearchAlgo() = 0;
+
 };
 
 
@@ -35,12 +37,24 @@ public:
     Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
     //develops a single vertex in the graph
     void developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDeveloped,
-     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
+    std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
+
+    virtual std::string name() {
+        return std::string("A*");
+    }
+
+    //virtual ~AstarAlgo() {}
+
 };
 class BFSAlgo : public SearchAlgo {
 
 public:
     Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
+    virtual std::string name() {
+        return std::string("BFS");
+    }
+    //virtual ~BFSAlgo() {}
+
 };
 
 class DFSAlgo : public SearchAlgo {
@@ -48,7 +62,12 @@ public:
     Path operator()( Graphs::MatrixGraph& g, size_t start, size_t end) ;
     //develops a single vertex in the graph - recursion
     void developVertex( Graphs::MatrixGraph& g, size_t vertex, std::vector<bool>& wasDevelop,
-     std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
+    std::vector<double>& bestPathTo, std::vector<int>& whereWeCameFrom) ;
+    virtual std::string name() {
+        return std::string("DFS");
+    }
+    //virtual ~DFSAlgo() {}
+
 };
 
 //develops a single vertex in the graph

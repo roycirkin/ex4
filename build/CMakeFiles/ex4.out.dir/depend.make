@@ -10,6 +10,7 @@ CMakeFiles/ex4.out.dir/matrix/Matrix.c.o: ../matrix/Matrix.h
 
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../ClientHandler.cpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../ClientHandler.hpp
+CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../FileExceptions.hpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../Graph.hpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../Logger.hpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../SearchAlgo.hpp
@@ -17,6 +18,10 @@ CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../Solver.hpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../matrix/ClassMatrix.hpp
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../matrix/ErrorCode.h
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../matrix/Matrix.h
+CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../matrix/MatrixParser.hpp
+
+CMakeFiles/ex4.out.dir/FileExceptions.cpp.o: ../FileExceptions.cpp
+CMakeFiles/ex4.out.dir/FileExceptions.cpp.o: ../FileExceptions.hpp
 
 CMakeFiles/ex4.out.dir/Graph.cpp.o: ../Graph.cpp
 CMakeFiles/ex4.out.dir/Graph.cpp.o: ../Graph.hpp
@@ -75,6 +80,7 @@ CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o: ../matrix/ErrorCode.h
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o: ../matrix/MatrixExceptions.cpp
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o: ../matrix/MatrixExceptions.hpp
 
+CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: ../FileExceptions.hpp
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: ../matrix/ClassMatrix.hpp
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: ../matrix/ErrorCode.h
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: ../matrix/Matrix.h

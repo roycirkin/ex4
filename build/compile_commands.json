@@ -56,6 +56,11 @@
 },
 {
   "directory": "/home/roy/ex4/build",
+  "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/FileExceptions.cpp.o -c /home/roy/ex4/FileExceptions.cpp",
+  "file": "/home/roy/ex4/FileExceptions.cpp"
+},
+{
+  "directory": "/home/roy/ex4/build",
   "command": "/bin/c++    -g   -Wall -Wextra -pedantic -Werror -std=c++17 -o CMakeFiles/ex4.out.dir/main.cpp.o -c /home/roy/ex4/main.cpp",
   "file": "/home/roy/ex4/main.cpp"
 }

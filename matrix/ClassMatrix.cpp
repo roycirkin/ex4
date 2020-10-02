@@ -42,9 +42,9 @@ namespace matrix{
         MatrixParsering::getMatrixFromVector(vec, *this);
     }
 
-    void Matrix::printToFile(const std::string& path) {
-        MatrixParsering::printMatrixToFile(*this, path);
-    }
+    // void Matrix::printToFile(const std::string& path) {
+    //     MatrixParsering::printMatrixToFile(*this, path);
+    // }
 
     Matrix& Matrix::operator=(const Matrix& other){
         if(this != &other){

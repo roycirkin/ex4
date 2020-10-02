@@ -18,6 +18,7 @@ private:
     
 public:
     GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end);
+    //solving the graph and returns the price that the algorithm gave and the route
     Status_solver solve();
     double getPrice();
 

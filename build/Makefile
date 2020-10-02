@@ -520,6 +520,33 @@ ex4.out/fast:
 	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/build
 .PHONY : ex4.out/fast
 
+ClientHandler.o: ClientHandler.cpp.o
+
+.PHONY : ClientHandler.o
+
+# target to build an object file
+ClientHandler.cpp.o:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/ClientHandler.cpp.o
+.PHONY : ClientHandler.cpp.o
+
+ClientHandler.i: ClientHandler.cpp.i
+
+.PHONY : ClientHandler.i
+
+# target to preprocess a source file
+ClientHandler.cpp.i:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/ClientHandler.cpp.i
+.PHONY : ClientHandler.cpp.i
+
+ClientHandler.s: ClientHandler.cpp.s
+
+.PHONY : ClientHandler.s
+
+# target to generate assembly for a file
+ClientHandler.cpp.s:
+	$(MAKE) -f CMakeFiles/ex4.out.dir/build.make CMakeFiles/ex4.out.dir/ClientHandler.cpp.s
+.PHONY : ClientHandler.cpp.s
+
 Graph.o: Graph.cpp.o
 
 .PHONY : Graph.o
@@ -857,6 +884,9 @@ help:
 	@echo "... ContinuousTest"
 	@echo "... ContinuousSubmit"
 	@echo "... ex4.out"
+	@echo "... ClientHandler.o"
+	@echo "... ClientHandler.i"
+	@echo "... ClientHandler.s"
 	@echo "... Graph.o"
 	@echo "... Graph.i"
 	@echo "... Graph.s"

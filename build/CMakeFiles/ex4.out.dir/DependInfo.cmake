@@ -14,6 +14,7 @@ set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_TARGET_INCLUDE_PATH
   )
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/roy/ex4/ClientHandler.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/ClientHandler.cpp.o"
   "/home/roy/ex4/Graph.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Graph.cpp.o"
   "/home/roy/ex4/Logger.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/Logger.cpp.o"
   "/home/roy/ex4/SearchAlgo.cpp" "/home/roy/ex4/build/CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o"

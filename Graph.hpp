@@ -17,7 +17,9 @@ struct Edge {
 class Graph
 {
 private: 
+	
 	vector<vector<int>> m_adjList;
+	//the costs of the vertexes
     std::vector<double> m_costs;
 
 public:
@@ -27,7 +29,7 @@ public:
     int getSize() const;
     std::vector<vector<int>>& getAdjList() ;
 	std::vector<double>& getCosts() ;
-	size_t getWidth() ;
+	size_t getWidth();
 	void setCosts(std::vector<double> costs);
 	void setAdjList (std::vector<vector<int>> adj);
 	friend void printGraph(Graph const& graph);

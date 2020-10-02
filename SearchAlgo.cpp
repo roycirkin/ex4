@@ -41,7 +41,7 @@ namespace Algorithm {
                 continue;
             }
             wasDeveloped[vertex] = true;
-            //update the vertex's neighberhoods
+            //update the vertex's neighbors
             for (auto newVer : g.getAdjList()[vertex]) {
                 bfsQueue.push(newVer);
                 if ((g.getCosts()[vertex] == -1) || (g.getCosts()[newVer] == -1) || (bestPathTo[vertex] == -1)) {
@@ -113,7 +113,7 @@ namespace Algorithm {
         developVertexGlobal(g, vertex, wasDeveloped, bestPathTo, whereWeCameFrom);
         for (auto newVer : g.getAdjList()[vertex]) {
             if (!wasDeveloped[newVer]) {
-                //if the neighber hasnt developed yet, develop him
+                //if the neighbor hasnt developed yet, develop him
                 developVertex(g, newVer, wasDeveloped, bestPathTo, whereWeCameFrom);
             }
         }
@@ -253,8 +253,10 @@ void developVertexGlobal( Graphs::Graph& g, size_t vertex, std::vector<bool>& wa
     double Path::getRouteCost() const {
         return routeCost;
     }
+
     Path::Path(){}
     Path::Path(std::vector<directions> route, double cost) : routeCost(cost), solutionRoute(route) {}
+
 
     std::vector<directions> getDierections(std::vector<int>& whereWeCameFrom, size_t start, size_t end, size_t width) {
         std::vector<directions> dierections;

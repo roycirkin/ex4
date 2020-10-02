@@ -19,11 +19,13 @@ public:
             uint16_t port = 0;
             //uint8_t server_type = 'p';
 
+            //reading the port from the command line
             if ((argc <= 1) || (!(port = std::atoi(argv[1])))) {
                 Logger::log(Logger::Level::Error, "wrong port input ");
                     throw ServerSide::UnknownPortError();
             }
 
+            //checks what kind of server we operate
             if (argc > 2) {
                 if (std::string(argv[2])== std::string("parallel")) {
                     //server_type = 'p';
@@ -36,9 +38,11 @@ public:
                     throw ServerSide::UnSuportedServerError();
                 }
             }
+
             ServerSide::MyParallelServer server;
             ClientHandle::GraphHandler c;
-            //server.open(port, c);
+            server.open(port, c);
+            
 
         } catch (ServerSide::UnSuportedServerError e){
             e.print();

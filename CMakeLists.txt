@@ -8,7 +8,7 @@ include(CTest)
 add_compile_options(-Wall -Wextra -pedantic -Werror)
 enable_testing()
 
-add_executable(ex4.out matrix/MatrixParser.cpp matrix/MatrixExceptions.cpp matrix/ErrorCode.c matrix/Matrix.c matrix/ClassMatrix.cpp  Graph.cpp SearchAlgo.cpp Solver.cpp Logger.cpp Server.cpp ClientHandler.hpp main.cpp)
+add_executable(ex4.out matrix/MatrixParser.cpp matrix/MatrixExceptions.cpp matrix/ErrorCode.c matrix/Matrix.c matrix/ClassMatrix.cpp  Graph.cpp SearchAlgo.cpp Solver.cpp Logger.cpp Server.cpp ClientHandler.cpp main.cpp)
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

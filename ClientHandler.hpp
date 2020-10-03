@@ -85,6 +85,7 @@ private:
     stageInProtocolGraphHandler m_stage;
     Solver::Solver* m_solver;
     std::vector<std::shared_ptr<Solver::Solver>> searches;
+    std::string m_algoName;
 public:
     GraphHandler();
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputStream);

@@ -15,4 +15,6 @@ bool getLine(std::string& input, std::string& line);
 
 bool getLineFromFile(std::ifstream& path, std::string& line);
 
+matrix::Matrix& getMatrixFromString(std::string& content);
+
 }

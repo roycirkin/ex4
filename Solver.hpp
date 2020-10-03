@@ -25,6 +25,9 @@ private:
 public:
     GraphSolver(){}
     GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end);
+    void setGraph(Graphs::MatrixGraph& graph);
+    void setStart(size_t start);
+    void setEnd(size_t end);
     //solving the graph and returns the price that the algorithm gave and the route
     Status_solver solve();
     double getPrice();

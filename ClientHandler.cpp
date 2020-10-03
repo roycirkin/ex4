@@ -57,9 +57,9 @@ GraphSolverStatus GraphHandler::handleClient (std::stringstream& inputStream, st
     case hello:
         return handleHello(inputStream, outputStream);
         break;
-    // case sendGraph:
-    //     return parseHello(inputStream, outputStream);
-    //     break;
+    case sendGraph:
+        return handleSendGraph(inputStream, outputStream);
+        break;
     default:
         return failed;
         break;
@@ -93,6 +93,7 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
 
         std::vector<std::shared_ptr<Solver::Solver>>::iterator it;
 
+        size_t counter = 0;
         for (it = searches.begin(); it != searches.end(); ++it) {
 
             std::string forTheRegex = "SOLVE(( |\t)*)FIND-GRAPH-PATH(( |\t)*)" + (it)->get()->getName() + "(( |\t)*)\r\n\r\n";
@@ -103,8 +104,10 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
 
             if (std::regex_match(instr, matcher, searchAlgoRegex)) {
                 m_solver = it->get();
+                m_algoName = counter;
                 return successes;
             }
+            counter++;
         }
         std::regex blankLines("SOLVE(( |\t)*)FIND-GRAPH-PATH(( |\t)*)\r\n\r\n");
         if (!std::regex_match(instr, matcher, blankLines)) {
@@ -139,25 +142,18 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
         return wrongMatrixGraphInput;
     }
 
-    std::fstream file;
-    std::string hashMatrix = std::to_string(getHash(inputStream.str()));
-    file.open("matrix" + hashMatrix, std::ios::out|std::ios::trunc);
     std::string downLine = "\r\n";
-    if (file.fail()) {
-        throw FileExceptions::OpenFileExceptionForReading();
-    }
-
+    std::string matrixString;
     for (int i = 0; i < height; ++i) {
         if (!MatrixParsering::getLine(inputString, line)) {
             return wrongMatrixGraphInput;
         }
-        file.write(line.c_str(), line.length());
-        file.write(downLine.c_str(), downLine.length());
+        matrixString.append(line);
+        matrixString.append(downLine);
     }
-    file.close();
 
     try {
-        matrix::Matrix mat = MatrixParsering::getMatrixFromFile("matrix" + hashMatrix);
+        matrix::Matrix mat = MatrixParsering::getMatrixFromString(matrixString);
         if ((int)mat.matrixGetWidth() != width) {
             return wrongMatrixGraphInput;
         }
@@ -184,12 +180,12 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
     std::cout << "caparaarrarar";
     std::cout.flush();
 
+
+    Solver::GraphSolver<class A>* psolver = (Solver::GraphSolver<class A>*)m_solver;
+    psolver.
+
+
     return successes;
-    
-    
-
-
-
 
 
 }
@@ -203,6 +199,16 @@ GraphSolverStatus GraphHandler::handleHello(std::stringstream& inputStream, std:
     m_stage = sendGraph;
     return msg.getStatus();
 }
+
+GraphSolverStatus GraphHandler::handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream) {
+    std::ignore = inputStream;
+    std::ignore = outputStream;
+    return successes;
+}
+
+
+
+
 
 size_t getHash(const std::string& str) {
     std::hash<std::string> hashfn;

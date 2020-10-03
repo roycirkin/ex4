@@ -11,13 +11,8 @@ namespace MatrixParsering {
 
 const u_int8_t MaxToRead = 100;
 
-matrix::Matrix& getMatrixFromFile(const std::string& path) {
+matrix::Matrix& getMatrixFromString(std::string& content) {
 
-    std::ifstream file;         
-    file.open(path, std::ios::in); 
-    if (file.fail()) {
-        throw FileExceptions::OpenFileExceptionForReading();
-    }
     std::string line;
     std::regex validity("((( |\t)*)(-?)[[:digit:]]+((\\.[[:digit:]]+)?)(( |\t)*)(,))*(( |\t)*)(-?)[[:digit:]]+((\\.[[:digit:]]+)?)(( |\t)*)");    
     std::regex rgx("(( |\t)*)(-?)[[:digit:]]+((\\.[[:digit:]]+)?)(( |\t)*)(,?)");    
@@ -27,12 +22,8 @@ matrix::Matrix& getMatrixFromFile(const std::string& path) {
     size_t width = 0;
     std::vector<double> matrixVector;
 
-    std::stringstream ss;
-    ss << file.rdbuf();
-    std::string fileContent = ss.str();
 
-
-    while(getLine(fileContent, line)) {
+    while(getLine(content, line)) {
         std::smatch validityMatcher;
         if(!std::regex_match(line, validityMatcher, validity)) {
             throw FileExceptions::WrongMatrixFileException();
@@ -85,17 +76,26 @@ matrix::Matrix& getMatrixFromFile(const std::string& path) {
         lines++;
     }
 
-    file.close();
-
     matrix::Matrix* mat = new matrix::Matrix(lines,width);
 
     getMatrixFromVector(matrixVector, *mat);
-    
-
 
     return *mat;
 }
 
+matrix::Matrix& getMatrixFromFile(const std::string& path) {
+    std::ifstream file;         
+    file.open(path, std::ios::in); 
+    if (file.fail()) {
+        throw FileExceptions::OpenFileExceptionForReading();
+    }
+    std::stringstream ss;
+    ss << file.rdbuf();
+    std::string fileContent = ss.str();
+    file.close();
+    return getMatrixFromString(fileContent);
+
+}
 
 
 void getMatrixFromVector(std::vector<double>& matVector, matrix::Matrix& theMatrix) {
@@ -109,7 +109,6 @@ void getMatrixFromVector(std::vector<double>& matVector, matrix::Matrix& theMatr
             theMatrix.matrixSetValue(i, j, matVector[i * theMatrix.matrixGetWidth() + j]);
         }
     }
-
 }
 
 
@@ -136,12 +135,6 @@ bool getLine(std::string& input, std::string& line) {
     }
     return true;
 }
-
-
-
-
-
-
 
 
 

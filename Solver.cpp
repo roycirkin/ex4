@@ -58,6 +58,18 @@ std::string GraphSolver<A>::getName() {
     return palg->name();
 }
 
+template <class A>
+void GraphSolver<A>::setGraph(Graphs::MatrixGraph& graph) {
+    this->graph = graph;
+}
+template <class A>
+void GraphSolver<A>::setStart(size_t start) {
+    this->start = start;
+}
+template <class A>
+void GraphSolver<A>::setEnd(size_t end) {
+    this->end = end;
+}
 
 
 

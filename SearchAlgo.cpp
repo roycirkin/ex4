@@ -117,9 +117,7 @@ namespace Algorithm {
                 developVertex(g, newVer, wasDeveloped, bestPathTo, whereWeCameFrom);
             }
         }
-
     }
-
 
     Path AstarAlgo::operator()( Graphs::MatrixGraph& g, size_t start, size_t end) {
     if (start == end) {
@@ -129,8 +127,6 @@ namespace Algorithm {
     if (((int)start < 0) || ((int)start > g.getSize()) || ((int)end  < 0) || ((int)end > g.getSize())) {
         throw WrongAssignment();
     }
-    
-
     
     std::vector<double> bestPathTo;
     std::vector<bool> wasDeveloped;
@@ -163,6 +159,9 @@ namespace Algorithm {
     
     //starts the A*
     vertexPriorityQueue.push_back(start);
+    if (g.getCosts()[start] == -1) {
+        throw NoRoute();
+    }
     //checks what is the best vertex to continue delevoping
     while (!vertexPriorityQueue.empty()) {
         double min = std::numeric_limits<double>::max();

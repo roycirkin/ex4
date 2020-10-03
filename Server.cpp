@@ -27,6 +27,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         std::ignore = maxMsgSize;
         auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
         Logger::log(Logger::Level::Info, "opening the server");
+
         if (sockfd < 0) {
             Logger::log(Logger::Level::Error, "cant open the socket");
             throw std::system_error{errno, std::system_category()};
@@ -37,7 +38,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         address.sin_addr.s_addr = INADDR_ANY; 
         address.sin_port = htons( port );
 
-        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)) < 0) ///////////what???
+        if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR | SO_REUSEPORT, &opt, sizeof(opt)) < 0)
         { 
             Logger::log(Logger::Level::Error, "set socket option failed");
             throw std::system_error{errno, std::system_category()};
@@ -60,6 +61,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         struct sockaddr pear_address;
         int newSocket = 0;
 
+        //accepting clients
         while (true) {
             newSocket = accept(sockfd, &pear_address, &addrlen);
             if (newSocket < 0) { 
@@ -71,12 +73,6 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
             Logger::log(Logger::Level::Info, "open socket communication " + std::to_string(newSocket));
             char buf[1024];
             int bytesRead;
-
-            // struct timeval tv;
-            // tv.tv_sec = 0;
-            // tv.tv_usec = 100;
-            //setsockopt(newSocket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
-            //int ddd = 0;/////
 
 
             bool running = true;
@@ -129,22 +125,22 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                     }
                     ins.seekg(std::ios_base::beg);
                     ins.write(buf,bytesRead);
-                    if (getPClientHandler()->validateMsg(ins) == successes) {
-                        break;
-                    }
 
+                    if (ins.str().find(c.getSyncString()) != string::npos) {
+                        Logger::log(Logger::Level::Debug, "in the find - "+ins.str());
+                        break;
+                    }                    
                 }
                 if (!running) {
                     break;
                 }
 
                 std::stringstream outs;
-                if (getPClientHandler()->handleClient(ins, outs) != ClientHandle::GraphSolverStatus::successes) {
+               
+                ClientHandle::GraphSolverStatus status = getPClientHandler()->handleClient(ins, outs);
+                if (status != successes) {
                     running = false;
-                    break;
                 }
-
-                Logger::log(Logger::Level::Info, "returned message is: " + outs.str());
 
                 int byteWriten = 0;
                 start = std::chrono::system_clock::now();
@@ -168,8 +164,10 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                         Logger::log(Logger::Level::Info, "timeout writing");
                         running = false;
                         break;
-                        
                     }
+                }
+                if (status != ClientHandle::GraphSolverStatus::successes) {
+                    running = false;
                 }
             }
         }
@@ -194,12 +192,15 @@ MyParallelServer::MyParallelServer() {
 uint16_t Server::getPort() const {
     return m_port;
 }
+
 ClientHandle::ClientHandler* Server::getPClientHandler() {
     return m_pClientHandler;
 }
+
 void Server::setPort (uint16_t port) {
     m_port = port;
 }
+
 void Server::setClientHandler (ClientHandle::ClientHandler* c) {
     m_pClientHandler = c;
 }

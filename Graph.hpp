@@ -1,7 +1,6 @@
 #pragma once
-#include <iostream>
 #include <vector>
-#include <map>
+#include <iostream>
 #include "matrix/ClassMatrix.hpp"
 using namespace std;
 
@@ -10,7 +9,6 @@ namespace Graphs {
 struct Edge {
 	int src, dest;
 };
-
 
 
 // class to represent a graph object

@@ -25,11 +25,22 @@ return new_s;
 GraphHandler::GraphHandler() : m_stage(hello){
 
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::AstarAlgo>>());
+    //Algorithm::AstarAlgo a;
+   // algoNames.push_back(a.name());
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::BFSAlgo>>());
+    // Algorithm::BFSAlgo b;
+    // algoNames.push_back(b.name());
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::DFSAlgo>>());
+    // Algorithm::BFSAlgo d;
+    // algoNames.push_back(d.name());
     m_solver = searches.begin()->get();
-    m_solver->getName();
+   // m_algoName = m_solver->getName();
 }
+
+Solver::GraphSolver<Algorithm::AstarAlgo>* GraphHandler::getSolver() {
+    return (Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver;
+}
+
 
 int GraphHandler::validateMsg(std::stringstream& inputstream) {
     int res = 0;
@@ -41,13 +52,12 @@ int GraphHandler::validateMsg(std::stringstream& inputstream) {
             res =  validateSendGraph(inputstream);
             break;
         default:
-            return failed;
+            return unknownErrorOccuerd;
             break;
     }
 
     inputstream.seekg(std::ios_base::beg);
     return res;
-
 
 }
 
@@ -61,12 +71,9 @@ GraphSolverStatus GraphHandler::handleClient (std::stringstream& inputStream, st
         return handleSendGraph(inputStream, outputStream);
         break;
     default:
-        return failed;
+        return unknownErrorOccuerd;
         break;
     }
-
-
-
 
 }
 
@@ -94,6 +101,8 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
         std::vector<std::shared_ptr<Solver::Solver>>::iterator it;
 
         size_t counter = 0;
+
+        //finds which algorithm will the solver use
         for (it = searches.begin(); it != searches.end(); ++it) {
 
             std::string forTheRegex = "SOLVE(( |\t)*)FIND-GRAPH-PATH(( |\t)*)" + (it)->get()->getName() + "(( |\t)*)\r\n\r\n";
@@ -104,7 +113,6 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
 
             if (std::regex_match(instr, matcher, searchAlgoRegex)) {
                 m_solver = it->get();
-                m_algoName = counter;
                 return successes;
             }
             counter++;
@@ -132,6 +140,7 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
     int endX = 0;
     int endY = 0;
 
+    //gets the width and the height
     if (!MatrixParsering::getLine(inputString, line)) {
         return wrongMatrixGraphInput;
     }
@@ -152,38 +161,49 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
         matrixString.append(downLine);
     }
 
+    //creates the matrix
     try {
         matrix::Matrix mat = MatrixParsering::getMatrixFromString(matrixString);
         if ((int)mat.matrixGetWidth() != width) {
             return wrongMatrixGraphInput;
         }
+        Graphs::MatrixGraph g(mat);
+        ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setGraph(g);/////////////////////////
+
     }catch (FileExceptions::FileExceptions& e) {
         e.printException();
         return wrongMatrixGraphInput;
     }
     
+    //gets the start point
     if (!MatrixParsering::getLine(inputString, line)) {
         return wrongMatrixGraphInput;
     }
-    if  (!getTwoNumbersInALine(line, startX, startY)) {
+    if  (!getTwoNumbersInALine(line, startY, startX)) {
         return wrongMatrixGraphInput;
     }
+
+    //gets the end point
     if (!MatrixParsering::getLine(inputString, line)) {
         return wrongMatrixGraphInput;
     }
-    if  (!getTwoNumbersInALine(line, endX, endY)) {
+    if  (!getTwoNumbersInALine(line, endY, endX)) {
         return wrongMatrixGraphInput;
     }
+
     if ((!(isPointInMatrix(height, width, startX, startY))) || (!(isPointInMatrix(height, width, endX, endY)))) {
         return wrongMatrixGraphInput;
     }
-    std::cout << "caparaarrarar";
-    std::cout.flush();
 
+    ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setStart(width * startY + startX);
+    ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setEnd(width * endY + endX);///////////////////
 
-    Solver::GraphSolver<class A>* psolver = (Solver::GraphSolver<class A>*)m_solver;
-    psolver.
-
+    std::regex blankLines("\r\n");
+    std::smatch matcher;
+    if (!std::regex_match(inputString, matcher, blankLines)) {
+        return wrongMatrixGraphInput;
+    }
+    
 
     return successes;
 
@@ -192,22 +212,68 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
 
 
 GraphSolverStatus GraphHandler::handleHello(std::stringstream& inputStream, std::stringstream& outputStream) {
+
+    GraphSolverStatus res = successes;
+    //if the input is not valid:
+    auto valid = validateHello(inputStream);
+    if (valid != successes) {
+        res = GraphSolverStatus::unvalidInput;
+    }
+
     Logger::log(Logger::Level::Debug, "in client handler - hello");
     std::ignore = inputStream;
-    GraphSolverProtocolMsgHello msg(successes);
-    outputStream << msg.to_string();
-    m_stage = sendGraph;
-    return msg.getStatus();
+    GraphSolverProtocolMsgHello msg(res);
+    outputStream << msg.to_string(*this);
+
+    if (res == GraphSolverStatus::successes){
+        m_stage = sendGraph;
+    } 
+
+    return res;
 }
 
 GraphSolverStatus GraphHandler::handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream) {
+
+    GraphSolverStatus res = successes;
+    auto valid = validateSendGraph(inputStream);
+    //if the input is not valid:
+    if (valid != successes) {
+        res = GraphSolverStatus::unvalidInput;
+        GraphSolverProtocolMsgsendGraph msg(res);
+        outputStream << msg.to_string(*this);
+        return res;
+    }
+
+    Logger::log(Logger::Level::Debug, "in client handler - sendGraph");
     std::ignore = inputStream;
+
+    //auto psolver = static_cast<Solver::GraphSolver*>(&m_solver->);
+    Solver::Status_solver status = ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->solve();//////////////////////
+
+    if(status == Solver::Status_solver::success) {
+
+        GraphSolverProtocolMsgsendGraph msg(successes);
+        outputStream << msg.to_string(*this);
+        return successes;
+
+    } else if(status == Solver::Status_solver::no_path) {
+
+        GraphSolverProtocolMsgsendGraph msg(noPath);
+        outputStream << msg.to_string(*this);
+        return noPath;
+
+    } else if(status == Solver::Status_solver::wrong_graph) {
+
+        GraphSolverProtocolMsgsendGraph msg(wrongGraph);
+        outputStream << msg.to_string(*this);
+        return wrongGraph;
+
+    }
+    return unknownErrorOccuerd;
+
+
     std::ignore = outputStream;
-    return successes;
 }
-
-
-
 
 
 size_t getHash(const std::string& str) {
@@ -252,8 +318,38 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
 
 }
 
+    std::string GraphSolverProtocolMsgHello::to_string(GraphHandler& graphHandler) {
+        std::ignore = graphHandler;
+        std::stringstream ss;
+        status_string(ss);
+        ss << "0" << "\r\n\r\n";
+        return ss.str();
+    }
 
+    std::string GraphSolverProtocolMsgsendGraph::to_string(GraphHandler& graphHandler) {
+        
+        std::stringstream ss;
+        status_string(ss);
+        if (getStatus() == successes) {
 
+            std::string solution = std::to_string(graphHandler.getSolver()->getPrice()) + "," + graphHandler.getSolver()->getRoute();
+            ss << solution.length() << "\r\n" << solution << "\r\n\r\n";
+
+        } else if (getStatus() == noPath) {
+
+            std::string noPathString = "no path found from the given start to the given end";
+            ss << noPathString.length() << "\r\n" << noPathString << "\r\n\r\n";
+
+        } else if (getStatus() == wrongGraph) {
+
+            std::string wrongGraphString = "the given graph is unvalid";
+            ss << wrongGraphString.length() << "\r\n" << wrongGraphString << "\r\n\r\n";
+
+        } else if (getStatus() == unvalidInput) {
+            ss << "0" << "\r\n\r\n";
+        }
+        return ss.str();
+    }
 
 
 

@@ -44,17 +44,16 @@ Status_solver GraphSolver<A>::solve() {
 }
 
 template <class A>
-double GraphSolver<A>::getPrice() {
+double GraphSolver<A>::getPrice() const {
     return price;
 }
 template <class A>
-std::string GraphSolver<A>::getName() {
+std::string GraphSolver<A>::getName() const{
     A alg;
     auto palg = static_cast<Algorithm::SearchAlgo*>(&alg);
     if (!palg) {
         throw Algorithm::noAlgorithmGiven();
     }
-
     return palg->name();
 }
 
@@ -62,14 +61,45 @@ template <class A>
 void GraphSolver<A>::setGraph(Graphs::MatrixGraph& graph) {
     this->graph = graph;
 }
+
 template <class A>
 void GraphSolver<A>::setStart(size_t start) {
     this->start = start;
 }
+
 template <class A>
 void GraphSolver<A>::setEnd(size_t end) {
     this->end = end;
 }
+
+template <class A>
+std::string GraphSolver<A>::getRoute() const {
+std::string route;
+
+size_t pos = 0;
+for(auto r: this->route) {
+
+    if (r == Algorithm::directions::up) {
+        route.append("up");
+    } else if(r == Algorithm::directions::right) {
+        route.append("right");
+    } else if(r == Algorithm::directions::down) {
+        route.append("down");
+    } else if(r == Algorithm::directions::left) {
+        route.append("left");
+    }
+
+    if (pos != (this->route.size() - 1)) {
+    route.append(",");
+    }
+    ++pos;
+}
+return route;
+
+}
+
+
+
 
 
 

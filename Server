@@ -66906,6 +66906,7 @@ namespace __detail
 # 258 "/usr/include/c++/9/bits/regex_executor.h" 2 3
 # 64 "/usr/include/c++/9/regex" 2 3
 # 4 "/home/roy/ex4/ClientHandler.hpp" 2
+
 # 1 "/home/roy/ex4/Solver.hpp" 1
        
 # 1 "/home/roy/ex4/SearchAlgo.hpp" 1
@@ -70556,7 +70557,8 @@ public:
 };
 # 43 "/home/roy/ex4/Solver.hpp"
 }
-# 5 "/home/roy/ex4/ClientHandler.hpp" 2
+# 6 "/home/roy/ex4/ClientHandler.hpp" 2
+
 
 
 
@@ -70570,20 +70572,60 @@ enum GraphSolverAlgorithms {
 BFS, DFS, ASTAR
 };
 
+
 enum GraphSolverStatus {
-successes, failed,
+    successes, failed, unsuportedTaskError, wrongMatrixGraphInput,
+};
+
+
+class GraphSolverProtocolMsg {
+private :
+    enum GraphSolverStatus m_status;
+protected:
+    void status_string(std::stringstream& ss) {
+        ss << "Version: 1.0" << "\r\n" << "status: " << (int)getStatus() << "\r\n" << "response-length: ";
+    }
+public:
+    virtual std::string to_string() = 0;
+    GraphSolverProtocolMsg(enum GraphSolverStatus status) : m_status(status) {}
+    enum GraphSolverStatus getStatus() {return m_status;}
+
+};
+
+class GraphSolverProtocolMsgHello : public GraphSolverProtocolMsg {
+public:
+    GraphSolverProtocolMsgHello(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
+
+    virtual std::string to_string() {
+        std::stringstream ss;
+        status_string(ss);
+        if (getStatus() == successes) {
+            ss << "0";
+        } else if (getStatus() == unsuportedTaskError) {
+            std::string unsuportedOperation = "unsuported operation given";
+            ss << unsuportedOperation.length() << unsuportedOperation;
+        }
+        return ss.str();
+    }
+};
+
+class GraphSolverProtocolMsgsendGraph : public GraphSolverProtocolMsg {
+public:
+    GraphSolverProtocolMsgsendGraph(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
+
+    virtual std::string to_string() {
+        return "";
+
+    }
+
 };
 
 GraphSolverStatus operator++(GraphSolverStatus s);
 
-
 class ClientHandler {
 public:
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) = 0;
-    bool virtual validateMsg(std::stringstream& inputstream) = 0;
-    bool virtual validateHello(std::stringstream& inputstream) = 0;
-
-
+    int virtual validateMsg(std::stringstream& inputstream) = 0;
 };
 
 
@@ -70601,9 +70643,13 @@ private:
 public:
     GraphHandler();
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputStream);
-    bool virtual validateMsg(std::stringstream& inputstream);
-    bool virtual validateHello(std::stringstream& inputstream);
+    int virtual validateMsg(std::stringstream& inputstream);
+    int virtual validateHello(std::stringstream& inputstream);
     GraphSolverStatus handleHello(std::stringstream& inputStream, std::stringstream& outputStream);
+
+    int validateSendGraph(std::stringstream& inputStream);
+    GraphSolverStatus handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream);
+
 
 
 
@@ -70618,6 +70664,11 @@ public:
 };
 
 
+size_t getHash(const std::string& str);
+
+bool getTwoNumbersInALine(std::string& line, int& a, int&b);
+
+bool isPointInMatrix(size_t height, size_t width, int posX, int posY);
 
 
 }
@@ -74335,6 +74386,8 @@ namespace std __attribute__ ((__visibility__ ("default")))
 # 14 "/home/roy/ex4/Server.cpp"
 namespace ServerSide {
 
+const int successes = 0;
+
 Server::Server() : m_pClientHandler(nullptr), m_port(0) {}
 
 void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
@@ -74346,56 +74399,56 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         size_t const maxMsgSize = 10000;
         std::ignore = maxMsgSize;
         auto sockfd = socket(
-# 26 "/home/roy/ex4/Server.cpp" 3 4
+# 28 "/home/roy/ex4/Server.cpp" 3 4
                             2
-# 26 "/home/roy/ex4/Server.cpp"
+# 28 "/home/roy/ex4/Server.cpp"
                                    , 
-# 26 "/home/roy/ex4/Server.cpp" 3 4
+# 28 "/home/roy/ex4/Server.cpp" 3 4
                                      SOCK_STREAM
-# 26 "/home/roy/ex4/Server.cpp"
+# 28 "/home/roy/ex4/Server.cpp"
                                                 , 0);
         Logger::log(Logger::Level::Info, "opening the server");
         if (sockfd < 0) {
             Logger::log(Logger::Level::Error, "cant open the socket");
             throw std::system_error{
-# 30 "/home/roy/ex4/Server.cpp" 3 4
+# 32 "/home/roy/ex4/Server.cpp" 3 4
                                    (*__errno_location ())
-# 30 "/home/roy/ex4/Server.cpp"
+# 32 "/home/roy/ex4/Server.cpp"
                                         , std::system_category()};
         }
 
         sockaddr_in address;
         address.sin_family = 
-# 34 "/home/roy/ex4/Server.cpp" 3 4
+# 36 "/home/roy/ex4/Server.cpp" 3 4
                             2
-# 34 "/home/roy/ex4/Server.cpp"
+# 36 "/home/roy/ex4/Server.cpp"
                                    ;
         address.sin_addr.s_addr = 
-# 35 "/home/roy/ex4/Server.cpp" 3 4
+# 37 "/home/roy/ex4/Server.cpp" 3 4
                                  ((in_addr_t) 0x00000000)
-# 35 "/home/roy/ex4/Server.cpp"
+# 37 "/home/roy/ex4/Server.cpp"
                                            ;
         address.sin_port = htons( port );
 
         if (setsockopt(sockfd, 
-# 38 "/home/roy/ex4/Server.cpp" 3 4
+# 40 "/home/roy/ex4/Server.cpp" 3 4
                               1
-# 38 "/home/roy/ex4/Server.cpp"
+# 40 "/home/roy/ex4/Server.cpp"
                                         , 
-# 38 "/home/roy/ex4/Server.cpp" 3 4
+# 40 "/home/roy/ex4/Server.cpp" 3 4
                                           2 
-# 38 "/home/roy/ex4/Server.cpp"
+# 40 "/home/roy/ex4/Server.cpp"
                                                        | 
-# 38 "/home/roy/ex4/Server.cpp" 3 4
+# 40 "/home/roy/ex4/Server.cpp" 3 4
                                                          15
-# 38 "/home/roy/ex4/Server.cpp"
+# 40 "/home/roy/ex4/Server.cpp"
                                                                      , &opt, sizeof(opt)) < 0)
         {
             Logger::log(Logger::Level::Error, "set socket option failed");
             throw std::system_error{
-# 41 "/home/roy/ex4/Server.cpp" 3 4
+# 43 "/home/roy/ex4/Server.cpp" 3 4
                                    (*__errno_location ())
-# 41 "/home/roy/ex4/Server.cpp"
+# 43 "/home/roy/ex4/Server.cpp"
                                         , std::system_category()};
         }
 
@@ -74404,9 +74457,9 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         {
             Logger::log(Logger::Level::Error, "bind failed");
             throw std::system_error{
-# 48 "/home/roy/ex4/Server.cpp" 3 4
+# 50 "/home/roy/ex4/Server.cpp" 3 4
                                    (*__errno_location ())
-# 48 "/home/roy/ex4/Server.cpp"
+# 50 "/home/roy/ex4/Server.cpp"
                                         , std::system_category()};
         }
 
@@ -74414,9 +74467,9 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         {
             Logger::log(Logger::Level::Error, "listen failed");
             throw std::system_error{
-# 54 "/home/roy/ex4/Server.cpp" 3 4
+# 56 "/home/roy/ex4/Server.cpp" 3 4
                                    (*__errno_location ())
-# 54 "/home/roy/ex4/Server.cpp"
+# 56 "/home/roy/ex4/Server.cpp"
                                         , std::system_category()};
         }
 
@@ -74429,9 +74482,9 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
             if (newSocket < 0) {
                 Logger::log(Logger::Level::Error, "connection refused");
                 throw std::system_error{
-# 65 "/home/roy/ex4/Server.cpp" 3 4
+# 67 "/home/roy/ex4/Server.cpp" 3 4
                                        (*__errno_location ())
-# 65 "/home/roy/ex4/Server.cpp"
+# 67 "/home/roy/ex4/Server.cpp"
                                             , std::system_category()};
             }
 
@@ -74444,52 +74497,57 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
 
 
 
+            int ddd = 0;
 
 
             bool running = true;
             while (running) {
                 std::stringstream ins;
                 auto start = std::chrono::system_clock::now();
-                Logger::log(Logger::Level::Debug, "start readin message");
+                Logger::log(Logger::Level::Debug, "start reading message");
 
                 while (true) {
                     bytesRead = recv(newSocket, buf, sizeof(buf) - 1, 
-# 86 "/home/roy/ex4/Server.cpp" 3 4
+# 89 "/home/roy/ex4/Server.cpp" 3 4
                                                                      MSG_DONTWAIT
-# 86 "/home/roy/ex4/Server.cpp"
+# 89 "/home/roy/ex4/Server.cpp"
                                                                                  );
                     int readerrno = 
-# 87 "/home/roy/ex4/Server.cpp" 3 4
+# 90 "/home/roy/ex4/Server.cpp" 3 4
                                    (*__errno_location ())
-# 87 "/home/roy/ex4/Server.cpp"
+# 90 "/home/roy/ex4/Server.cpp"
                                         ;
                     bool wouldblock = ((bytesRead < 0) && (readerrno == 
-# 88 "/home/roy/ex4/Server.cpp" 3 4
+# 91 "/home/roy/ex4/Server.cpp" 3 4
                                                                        11
-# 88 "/home/roy/ex4/Server.cpp"
+# 91 "/home/roy/ex4/Server.cpp"
                                                                                   ));
 
                     if (bytesRead > 0){
                         buf[bytesRead] = 0;
                         std::string msg = buf;
-
+                            ddd++;
+                            std::cout << ddd;
                         Logger::log(Logger::Level::Debug, "recived:" + msg);
+                            std::cout << ddd;
                     }
 
                     auto end = std::chrono::system_clock::now();
                     std::chrono::duration<double> diff = end-start;
                     int seconds = diff.count() ;
+
                     if (seconds > 20) {
-                        Logger::log(Logger::Level::Info, "timeout reading");
+                        Logger::log(Logger::Level::Info, "timeout reading - didnt find valid message");
                         running = false;
                         break;
                     }
-
                     if (wouldblock){
                         std::this_thread::sleep_for(std::chrono::microseconds(100));
                         continue;
                     }
-
+                                                                if (ddd == 3) {
+                        std::cout << "blalalal2";
+                    }
                     if (bytesRead == 0) {
                         Logger::log(Logger::Level::Info, "closed by peer");
                         running = false;
@@ -74498,42 +74556,25 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
 
                     if (bytesRead < 0) {
                         Logger::log(Logger::Level::Error, "exception while reading");
-                        throw std::system_error{
-# 119 "/home/roy/ex4/Server.cpp" 3 4
-                                               (*__errno_location ())
-# 119 "/home/roy/ex4/Server.cpp"
-                                                    , std::system_category()};
-                    }
-
-
-
-
-
-
-                    std::cout << ins.tellg();
-                    ins.write(buf,bytesRead);
-                    std::cout << std::ios_base::cur + bytesRead;
-                    ins.seekg(std::ios_base::cur + bytesRead);
-                    std::cout << ins.tellg();
-
-
-
-                    Logger::log(Logger::Level::Error, "before validate"+ins.str());
-
-
-                    if (getPClientHandler()->validateMsg(ins)) {
-                        Logger::log(Logger::Level::Info, "true!!!");
-                        ins.seekp(ios_base::beg);
+                        running = false;
                         break;
                     }
 
-                    Logger::log(Logger::Level::Error, "after validate"+ins.str());
+                    if ((size_t)ins.tellp() > maxMsgSize - sizeof(buf)) {
+                        Logger::log(Logger::Level::Error, "message too big" + std::to_string((size_t)ins.tellp()));
+                        running = false;
+                        break;
+                    }
+                    ins.seekg(std::ios_base::beg);
+                    ins.write(buf,bytesRead);
+                    if (getPClientHandler()->validateMsg(ins) == successes) {
+                        break;
+                    }
 
                 }
                 if (!running) {
                     break;
                 }
-                Logger::log(Logger::Level::Info, "message is: " + ins.str());
 
                 std::stringstream outs;
                 if (getPClientHandler()->handleClient(ins, outs) != ClientHandle::GraphSolverStatus::successes) {
@@ -74551,16 +74592,16 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                     if (byteWriten < 0) {
                         Logger::log(Logger::Level::Error, "exception while writing");
                         throw std::system_error{
-# 167 "/home/roy/ex4/Server.cpp" 3 4
+# 161 "/home/roy/ex4/Server.cpp" 3 4
                                                (*__errno_location ())
-# 167 "/home/roy/ex4/Server.cpp"
+# 161 "/home/roy/ex4/Server.cpp"
                                                     , std::system_category()};
                     }
                     if (byteWriten == 0) {
                         break;
                     }
-
-                    outs.seekg(byteWriten, std::ios_base::cur);
+                    Logger::log(Logger::Level::Info, "writing:  " + outs.str());
+                    outs.seekp(byteWriten, std::ios_base::cur);
                     auto end = std::chrono::system_clock::now();
                     std::chrono::duration<double> diff = end-start;
 

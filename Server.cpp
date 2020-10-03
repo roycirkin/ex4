@@ -13,6 +13,8 @@
 
 namespace ServerSide {
 
+const int successes = 0;
+
 Server::Server() : m_pClientHandler(nullptr),  m_port(0) {}
 
 void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
@@ -74,6 +76,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
             // tv.tv_sec = 0;
             // tv.tv_usec = 100;
             //setsockopt(newSocket, SOL_SOCKET, SO_RCVTIMEO, (const char*)&tv, sizeof tv);
+            //int ddd = 0;/////
 
 
             bool running = true;
@@ -81,7 +84,6 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                 std::stringstream ins;
                 auto start = std::chrono::system_clock::now();
                 Logger::log(Logger::Level::Debug, "start reading message");
-
 
                 while (true) {
                     bytesRead = recv(newSocket, buf, sizeof(buf) - 1, MSG_DONTWAIT);
@@ -97,17 +99,17 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                     auto end = std::chrono::system_clock::now();
                     std::chrono::duration<double> diff = end-start;
                     int seconds = diff.count() ;
+
                     if (seconds > 20) {
-                        Logger::log(Logger::Level::Info, "timeout reading");
+                        Logger::log(Logger::Level::Info, "timeout reading - didnt find valid message");
+
                         running = false;
                         break;
                     }
-
                     if (wouldblock){
                         std::this_thread::sleep_for(std::chrono::microseconds(100));
                         continue;
                     }
-
                     if (bytesRead == 0) {
                         Logger::log(Logger::Level::Info, "closed by peer");
                         running = false;
@@ -116,7 +118,8 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
 
                     if (bytesRead < 0) {  
                         Logger::log(Logger::Level::Error, "exception while reading");
-                        throw std::system_error{errno, std::system_category()};
+                        running = false;
+                        break;
                     }
 
                     if ((size_t)ins.tellp() > maxMsgSize - sizeof(buf)) {
@@ -124,11 +127,9 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                         running = false;
                         break;
                     }
-                   
-
-                    ins << buf;
-
-                    if (getPClientHandler()->validateMsg(ins)) {
+                    ins.seekg(std::ios_base::beg);
+                    ins.write(buf,bytesRead);
+                    if (getPClientHandler()->validateMsg(ins) == successes) {
                         break;
                     }
 
@@ -157,7 +158,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                     if (byteWriten == 0) {
                         break;
                     }
-                    Logger::log(Logger::Level::Error, "writing:  " + outs.str());
+                    Logger::log(Logger::Level::Info, "writing:  " + outs.str());
                     outs.seekp(byteWriten, std::ios_base::cur);
                     auto end = std::chrono::system_clock::now();
                     std::chrono::duration<double> diff = end-start;

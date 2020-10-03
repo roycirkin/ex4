@@ -1,6 +1,7 @@
 #pragma once
 #include <sstream>
 #include <regex>
+#include <string>
 #include "Solver.hpp"
 #include "algorithm"
 #include "matrix/ClassMatrix.hpp"
@@ -16,20 +17,60 @@ enum GraphSolverAlgorithms {
 BFS, DFS, ASTAR
 };
 
+
 enum GraphSolverStatus {
-successes, failed,
+    successes, failed, unsuportedTaskError, wrongMatrixGraphInput,
+};
+
+
+class GraphSolverProtocolMsg {
+private :
+    enum GraphSolverStatus m_status;
+protected:
+    void status_string(std::stringstream& ss) {
+        ss << "Version: 1.0" << std::endl << "status: " << (int)getStatus() << std::endl << "response-length: ";
+    }
+public:
+    virtual std::string to_string() = 0;
+    GraphSolverProtocolMsg(enum GraphSolverStatus status) : m_status(status) {}
+    enum GraphSolverStatus getStatus() {return m_status;}
+
+};
+
+class GraphSolverProtocolMsgHello : public GraphSolverProtocolMsg {
+public:
+    GraphSolverProtocolMsgHello(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
+
+    virtual std::string to_string() {
+        std::stringstream ss;
+        status_string(ss);
+        if (getStatus() == successes) {
+            ss << "0";
+        } else if (getStatus() == unsuportedTaskError) {
+            std::string unsuportedOperation = "unsuported operation given";
+            ss << unsuportedOperation.length() << unsuportedOperation;
+        }
+        return ss.str();
+    }
+};
+
+class GraphSolverProtocolMsgsendGraph : public GraphSolverProtocolMsg {
+public:
+    GraphSolverProtocolMsgsendGraph(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
+    
+    virtual std::string to_string() {
+        return "";
+
+    }
+    
 };
 
 GraphSolverStatus operator++(GraphSolverStatus s);
 
-
 class ClientHandler {
 public:
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) = 0;
-    bool virtual validateMsg(std::stringstream& inputstream) = 0;
-    bool virtual validateHello(std::stringstream& inputstream) = 0;
-
-
+    int virtual validateMsg(std::stringstream& inputstream) = 0;
 };
 
 //inteface
@@ -47,11 +88,11 @@ private:
 public:
     GraphHandler();
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputStream);
-    bool virtual validateMsg(std::stringstream& inputstream);
-    bool virtual validateHello(std::stringstream& inputstream);
+    int virtual validateMsg(std::stringstream& inputstream);
+    int virtual validateHello(std::stringstream& inputstream);
     GraphSolverStatus handleHello(std::stringstream& inputStream, std::stringstream& outputStream);
 
-    bool validateSendGraph(std::stringstream& inputStream);
+    int validateSendGraph(std::stringstream& inputStream);
     GraphSolverStatus handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream);
 
     //GraphSolverStatus parseSendGraph(std::stringstream& inputStream, std::stringstream& outputStream);
@@ -73,6 +114,7 @@ size_t getHash(const std::string& str);
 bool getTwoNumbersInALine(std::string& line, int& a, int&b);
 
 bool isPointInMatrix(size_t height, size_t width, int posX, int posY);
+
 
 }
 

@@ -31,18 +31,22 @@ GraphHandler::GraphHandler() : m_stage(hello){
     m_solver->getName();
 }
 
-bool GraphHandler::validateMsg(std::stringstream& inputstream) {
+int GraphHandler::validateMsg(std::stringstream& inputstream) {
+    int res = 0;
     switch (m_stage) {
         case hello:
-            return validateHello(inputstream);
+            res =  validateHello(inputstream);
             break;
         case sendGraph:
-            return validateSendGraph(inputstream);
+            res =  validateSendGraph(inputstream);
             break;
         default:
             return failed;
             break;
     }
+
+    inputstream.seekg(std::ios_base::beg);
+    return res;
 
 
 }
@@ -66,7 +70,7 @@ GraphSolverStatus GraphHandler::handleClient (std::stringstream& inputStream, st
 
 }
 
-bool GraphHandler::validateHello(std::stringstream& inputStream) {
+int GraphHandler::validateHello(std::stringstream& inputStream) {
 
     std::string solve;
     std::string problem;
@@ -81,7 +85,7 @@ bool GraphHandler::validateHello(std::stringstream& inputStream) {
     std::transform(instr.begin(), instr.end(), instr.begin(), ::toupper);
 
     if (solve != "SOLVE") {
-        return false;
+        return unsuportedTaskError;
         Logger::log(Logger::Level::Debug, "solve failed - " + solve);
     }
 
@@ -99,23 +103,24 @@ bool GraphHandler::validateHello(std::stringstream& inputStream) {
 
             if (std::regex_match(instr, matcher, searchAlgoRegex)) {
                 m_solver = it->get();
-                return true;
+                return successes;
             }
         }
         std::regex blankLines("SOLVE(( |\t)*)FIND-GRAPH-PATH(( |\t)*)\r\n\r\n");
         if (!std::regex_match(instr, matcher, blankLines)) {
-            return false;
+            return unsuportedTaskError;
         }
     } else {
-        return false;
+        return unsuportedTaskError;
     }
     
-    return true;
+    return successes;
 
 }
 
-bool GraphHandler::validateSendGraph(std::stringstream& inputStream) {
+int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
 
+    std::string inputString = inputStream.str();
     std::string line;
     int height = 0;
     int width = 0;
@@ -123,66 +128,63 @@ bool GraphHandler::validateSendGraph(std::stringstream& inputStream) {
     int startY = 0;
     int endX = 0;
     int endY = 0;
-    
-    if (!std::getline(inputStream, line)) {// why does it returns me an empty string???????????? and if it brings me an empty string i want to enter this if!!!
-                        Logger::log(Logger::Level::Debug, "1");
-        return false;
+
+    if (!MatrixParsering::getLine(inputString, line)) {
+        return wrongMatrixGraphInput;
     }
-    std::cout << inputStream.str();
     if  (!getTwoNumbersInALine(line, height, width)) {
-                        Logger::log(Logger::Level::Debug, "2");
-        return false;
+        return wrongMatrixGraphInput;
     }
     if ((height == 0) || (width == 0)) {
-                         Logger::log(Logger::Level::Debug, "3");
-        return false;
+        return wrongMatrixGraphInput;
     }
-    std::cout << "benzemaaa" << " " << height << width <<std::endl;
 
     std::fstream file;
     std::string hashMatrix = std::to_string(getHash(inputStream.str()));
     file.open("matrix" + hashMatrix, std::ios::out|std::ios::trunc);
+    std::string downLine = "\r\n";
     if (file.fail()) {
         throw FileExceptions::OpenFileExceptionForReading();
-                 Logger::log(Logger::Level::Debug, "4");
-
     }
 
     for (int i = 0; i < height; ++i) {
-        if (!std::getline(inputStream, line)) {
-            return false;
+        if (!MatrixParsering::getLine(inputString, line)) {
+            return wrongMatrixGraphInput;
         }
         file.write(line.c_str(), line.length());
+        file.write(downLine.c_str(), downLine.length());
     }
     file.close();
 
-    try { 
+    try {
         matrix::Matrix mat = MatrixParsering::getMatrixFromFile("matrix" + hashMatrix);
         if ((int)mat.matrixGetWidth() != width) {
-            return false;
+            return wrongMatrixGraphInput;
         }
-    } catch (...) {
-        return false;
+    }catch (FileExceptions::FileExceptions& e) {
+        e.printException();
+        return wrongMatrixGraphInput;
     }
     
-    if (!std::getline(inputStream, line)) {
-        return false;
+    if (!MatrixParsering::getLine(inputString, line)) {
+        return wrongMatrixGraphInput;
     }
     if  (!getTwoNumbersInALine(line, startX, startY)) {
-        return false;
+        return wrongMatrixGraphInput;
     }
-    if (!std::getline(inputStream, line)) {
-        return false;
+    if (!MatrixParsering::getLine(inputString, line)) {
+        return wrongMatrixGraphInput;
     }
     if  (!getTwoNumbersInALine(line, endX, endY)) {
-        return false;
+        return wrongMatrixGraphInput;
     }
     if ((!(isPointInMatrix(height, width, startX, startY))) || (!(isPointInMatrix(height, width, endX, endY)))) {
-        return false;
+        return wrongMatrixGraphInput;
     }
+    std::cout << "caparaarrarar";
+    std::cout.flush();
 
-
-    return true;
+    return successes;
     
     
 
@@ -196,9 +198,10 @@ bool GraphHandler::validateSendGraph(std::stringstream& inputStream) {
 GraphSolverStatus GraphHandler::handleHello(std::stringstream& inputStream, std::stringstream& outputStream) {
     Logger::log(Logger::Level::Debug, "in client handler - hello");
     std::ignore = inputStream;
-    outputStream << "requestion accepted";
+    GraphSolverProtocolMsgHello msg(successes);
+    outputStream << msg.to_string();
     m_stage = sendGraph;
-    return successes;
+    return msg.getStatus();
 }
 
 size_t getHash(const std::string& str) {
@@ -208,28 +211,28 @@ size_t getHash(const std::string& str) {
 }
 
 bool getTwoNumbersInALine(std::string& line, int& a, int&b) {
-            std::cout << "line:" <<line;
 
     std::string num("[[:digit:]]+");
     std::regex numRGX(num);
-    std::regex heightAndWidth("(( |\t)*)" + num + "(( |\t)*),(( |\t)*)" + num + "(( |\t)*)");
+    std::regex twoNumRegex("(( |\t)*)" + num + "(( |\t)*),(( |\t)*)" + num + "(( |\t)*)");
+    std::regex commaRegex("(( |\t)*)" + num + "(( |\t)*),");
     std::smatch matcher;
     int numTemp = 0;
 
-    if(!std::regex_match(line, matcher, heightAndWidth)) {
+    if(!std::regex_match(line, matcher, twoNumRegex)) {
         return false;
     }
 
     std::regex_search(line, matcher, numRGX);
     std::string temp = matcher.str(0);
-    try {numTemp = std ::stoi(temp);}
-    catch (...){return false;}
+    numTemp = std ::stoi(temp);
     a = numTemp;
-    line = line.substr(temp.length(), line.length());
+    std::regex_search(line, matcher, commaRegex);
+    temp = matcher.str(0);
+    line = line.substr(temp.length() , line.length());
     std::regex_search(line, matcher, numRGX);
     temp = matcher.str(0);
-    try{numTemp = std ::stoi(temp);}
-    catch (...){return false;}
+    numTemp = std ::stoi(temp);
     b = numTemp;
 
     return true;
@@ -242,6 +245,9 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
     return true;
 
 }
+
+
+
 
 
 

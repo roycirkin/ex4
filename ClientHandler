@@ -70525,37 +70525,50 @@ public:
 namespace Solver {
 
 enum Status_solver {
-    success, no_path, wrong_graph, wrong_assignment, no_such_algorithm,
+    success, no_path, wrong_graph, wrong_assignment, no_such_algorithm, unValidMessage
 };
 
 class Solver {
 public:
     virtual std::string getName() const {return std::string();}
+    virtual Status_solver solve() {return success;}
+};
+
+class GraphSolveBase : public Solver{
+protected:
+    Graphs::MatrixGraph graph;
+    size_t start;
+    size_t end;
+
+public:
+    GraphSolveBase() {}
+    GraphSolveBase(Graphs::MatrixGraph& graph, size_t start, size_t end);
+    void setGraph(Graphs::MatrixGraph& graph);
+    void setStart(size_t start);
+    void setEnd(size_t end);
+    virtual std::string getRoute() const {return std::string();}
+    virtual double getPrice() const {return 0;};
+
 
 };
 
 template <class A>
-class GraphSolver : public Solver{
+class GraphSolver : public GraphSolveBase{
 private:
-    Graphs::MatrixGraph graph;
-    size_t start;
-    size_t end;
     double price;
     std::vector<Algorithm::directions> route;
 
 public:
-    GraphSolver(){}
+    GraphSolver() {}
     GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end);
-    void setGraph(Graphs::MatrixGraph& graph);
-    void setStart(size_t start);
-    void setEnd(size_t end);
 
-    Status_solver solve();
-    double getPrice() const;
+
+    virtual Status_solver solve();
+    virtual double getPrice() const;
     virtual std::string getName() const;
-    std::string getRoute() const;
+    virtual std::string getRoute() const;
 };
-# 47 "/home/roy/ex4/Solver.hpp"
+# 60 "/home/roy/ex4/Solver.hpp"
 }
 # 6 "/home/roy/ex4/ClientHandler.hpp" 2
 
@@ -70576,13 +70589,16 @@ BFS, DFS, ASTAR
 
 
 enum GraphSolverStatus {
-    successes, noPath, unsuportedTaskError, wrongMatrixGraphInput, wrongGraph, unknownErrorOccuerd
+    successes, noPath, unsuportedTaskError, wrongMatrixGraphInput, wrongGraph, unknownErrorOccuerd, unvalidInput
 };
 
 class ClientHandler {
 public:
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) = 0;
     int virtual validateMsg(std::stringstream& inputstream) = 0;
+    virtual std::string getSyncString() = 0;
+    virtual void update() = 0;
+
 };
 
 
@@ -70595,8 +70611,8 @@ class AlgorithmClientHandler : public ClientHandler{
 class GraphHandler : public AlgorithmClientHandler{
 private:
     stageInProtocolGraphHandler m_stage;
-    Solver::Solver* m_solver;
-    std::vector<std::shared_ptr<Solver::Solver>> searches;
+    Solver::GraphSolveBase* m_solver;
+    std::vector<std::shared_ptr<Solver::GraphSolveBase>> searches;
 
 
 public:
@@ -70610,19 +70626,23 @@ public:
     int validateSendGraph(std::stringstream& inputStream);
     GraphSolverStatus handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream);
 
-    Solver::GraphSolver<Algorithm::AstarAlgo>* getSolver();
+    Solver::GraphSolveBase* getSolver();
+
+    std::string getSyncString() {
+        return "\r\n\r\n";
+    }
+    virtual void update();
 
 };
 
 class GraphSolverProtocolMsg {
 private :
     enum GraphSolverStatus m_status;
-protected:
+public:
 
     void status_string(std::stringstream& ss) {
-        ss << "Version: 1.0" << std::endl << "status: " << (int)getStatus() << std::endl << "response-length: ";
+        ss << "Version: 1.0" << "\r\n" << "status: " << (int)getStatus() << "\r\n" << "response-length: ";
     }
-public:
 
     virtual std::string to_string(GraphHandler& graphHandler) = 0;
     GraphSolverProtocolMsg(enum GraphSolverStatus status) : m_status(status) {}
@@ -73081,20 +73101,14 @@ return new_s;
 GraphHandler::GraphHandler() : m_stage(hello){
 
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::AstarAlgo>>());
-
-
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::BFSAlgo>>());
-
-
     searches.push_back(std::make_shared<Solver::GraphSolver<Algorithm::DFSAlgo>>());
-
-
     m_solver = searches.begin()->get();
 
 }
 
-Solver::GraphSolver<Algorithm::AstarAlgo>* GraphHandler::getSolver() {
-    return (Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver;
+Solver::GraphSolveBase* GraphHandler::getSolver() {
+    return m_solver;
 }
 
 
@@ -73154,9 +73168,7 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
 
     if (problem == "FIND-GRAPH-PATH") {
 
-        std::vector<std::shared_ptr<Solver::Solver>>::iterator it;
-
-        size_t counter = 0;
+        std::vector<std::shared_ptr<Solver::GraphSolveBase>>::iterator it;
 
 
         for (it = searches.begin(); it != searches.end(); ++it) {
@@ -73171,7 +73183,6 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
                 m_solver = it->get();
                 return successes;
             }
-            counter++;
         }
         std::regex blankLines("SOLVE(( |\t)*)FIND-GRAPH-PATH(( |\t)*)\r\n\r\n");
         if (!std::regex_match(instr, matcher, blankLines)) {
@@ -73224,7 +73235,7 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
             return wrongMatrixGraphInput;
         }
         Graphs::MatrixGraph g(mat);
-        ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setGraph(g);
+        (m_solver)->setGraph(g);
 
     }catch (FileExceptions::FileExceptions& e) {
         e.printException();
@@ -73251,12 +73262,12 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
         return wrongMatrixGraphInput;
     }
 
-    ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setStart(width * startY + startX);
-    ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->setEnd(width * endY + endX);
+    (m_solver)->setStart(width * startY + startX);
+    (m_solver)->setEnd(width * endY + endX);
 
-    std::regex TwoBlankLines("\r\n\r\n");
+    std::regex blankLines("\r\n");
     std::smatch matcher;
-    if (!std::regex_match(inputString, matcher, TwoBlankLines)) {
+    if (!std::regex_match(inputString, matcher, blankLines)) {
         return wrongMatrixGraphInput;
     }
 
@@ -73268,19 +73279,38 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
 
 
 GraphSolverStatus GraphHandler::handleHello(std::stringstream& inputStream, std::stringstream& outputStream) {
+
+    GraphSolverStatus res = successes;
+
+    auto valid = validateHello(inputStream);
+    if (valid != successes) {
+        res = GraphSolverStatus::unvalidInput;
+    }
+
     Logger::log(Logger::Level::Debug, "in client handler - hello");
     std::ignore = inputStream;
-    GraphSolverProtocolMsgHello msg(successes);
+    GraphSolverProtocolMsgHello msg(res);
     outputStream << msg.to_string(*this);
-    m_stage = sendGraph;
-    return msg.getStatus();
+
+    return res;
 }
 
 GraphSolverStatus GraphHandler::handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream) {
+
+    GraphSolverStatus res = successes;
+    auto valid = validateSendGraph(inputStream);
+
+    if (valid != successes) {
+        res = GraphSolverStatus::unvalidInput;
+        GraphSolverProtocolMsgsendGraph msg(res);
+        outputStream << msg.to_string(*this);
+        return res;
+    }
+
     Logger::log(Logger::Level::Debug, "in client handler - sendGraph");
     std::ignore = inputStream;
 
-    Solver::Status_solver status = ((Solver::GraphSolver<Algorithm::AstarAlgo>*)m_solver)->solve();
+    auto status = m_solver->solve();
 
     if(status == Solver::Status_solver::success) {
 
@@ -73305,7 +73335,6 @@ GraphSolverStatus GraphHandler::handleSendGraph(std::stringstream& inputStream, 
 
 
     std::ignore = outputStream;
-    return successes;
 }
 
 
@@ -73355,12 +73384,7 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
         std::ignore = graphHandler;
         std::stringstream ss;
         status_string(ss);
-        if (getStatus() == successes) {
-            ss << "0" << std::endl << std::endl;
-        } else if (getStatus() == unsuportedTaskError) {
-            std::string unsuportedOperation = "unsuported operation given";
-            ss << unsuportedOperation.length() << unsuportedOperation;
-        }
+        ss << "0" << "\r\n\r\n";
         return ss.str();
     }
 
@@ -73371,20 +73395,39 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
         if (getStatus() == successes) {
 
             std::string solution = std::to_string(graphHandler.getSolver()->getPrice()) + "," + graphHandler.getSolver()->getRoute();
-            ss << solution.length() << std::endl << solution << std::endl << std::endl;
+            ss << solution.length() << "\r\n" << solution << "\r\n\r\n";
 
         } else if (getStatus() == noPath) {
 
             std::string noPathString = "no path found from the given start to the given end";
-            ss << noPathString.length() << std::endl << noPathString << std::endl << std::endl;
+            ss << noPathString.length() << "\r\n" << noPathString << "\r\n\r\n";
 
         } else if (getStatus() == wrongGraph) {
 
             std::string wrongGraphString = "the given graph is unvalid";
-            ss << wrongGraphString.length() << std::endl << wrongGraphString << std::endl << std::endl;
+            ss << wrongGraphString.length() << "\r\n" << wrongGraphString << "\r\n\r\n";
 
+        } else if (getStatus() == unvalidInput) {
+            ss << "0" << "\r\n\r\n";
         }
         return ss.str();
     }
-# 341 "/home/roy/ex4/ClientHandler.cpp"
+
+    void GraphHandler::update() {
+        if (m_stage == sendGraph) {
+            m_stage = hello;
+            return;
+        }
+        if (m_stage == hello) {
+            m_stage = sendGraph;
+            return;
+        }
+    }
+
+
+
+
+
+
+
 }

@@ -29,6 +29,8 @@ public:
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) = 0;
     int virtual validateMsg(std::stringstream& inputstream) = 0;
     virtual std::string getSyncString() = 0;
+    virtual void update() = 0;
+
 };
 
 //inteface
@@ -41,8 +43,8 @@ class AlgorithmClientHandler  : public  ClientHandler{
 class GraphHandler : public AlgorithmClientHandler{
 private:
     stageInProtocolGraphHandler m_stage;
-    Solver::Solver* m_solver;
-    std::vector<std::shared_ptr<Solver::Solver>> searches;
+    Solver::GraphSolveBase* m_solver;
+    std::vector<std::shared_ptr<Solver::GraphSolveBase>> searches;
     //std::vector<std::string> algoNames;
     //std::string m_algoName;
 public:
@@ -56,18 +58,12 @@ public:
     int validateSendGraph(std::stringstream& inputStream);
     GraphSolverStatus handleSendGraph(std::stringstream& inputStream, std::stringstream& outputStream);
 
-    Solver::GraphSolver<Algorithm::AstarAlgo>* getSolver();
+    Solver::GraphSolveBase* getSolver();
 
     std::string getSyncString() {
         return "\r\n\r\n";
     }
-
-    // GraphSolverStatus handelUnvalidInput(std::stringstream& inputStream, std::stringstream& outputStream) {
-
-    //     GraphSolverProtocolMsgsendGraph msg(Solver::Status_solver::);
-    //     outputStream << msg.to_string(*this);
-    //     return successes;
-    // }
+    virtual void update();
 
 };
 

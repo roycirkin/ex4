@@ -9,9 +9,11 @@ template class GraphSolver<Algorithm::DFSAlgo>;
 template class GraphSolver<Algorithm::AstarAlgo>;
 
 
-template <class A> 
-GraphSolver<A>::GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end)
+GraphSolveBase::GraphSolveBase(Graphs::MatrixGraph& graph, size_t start, size_t end)
     : graph(graph), start(start), end(end) {}
+
+template <class A>
+GraphSolver<A>::GraphSolver(Graphs::MatrixGraph& graph, size_t start, size_t end) : GraphSolveBase(graph, start, end) {}
 
 template <class A>
 Status_solver GraphSolver<A>::solve() {
@@ -57,18 +59,15 @@ std::string GraphSolver<A>::getName() const{
     return palg->name();
 }
 
-template <class A>
-void GraphSolver<A>::setGraph(Graphs::MatrixGraph& graph) {
+void GraphSolveBase::setGraph(Graphs::MatrixGraph& graph) {
     this->graph = graph;
 }
 
-template <class A>
-void GraphSolver<A>::setStart(size_t start) {
+void GraphSolveBase::setStart(size_t start) {
     this->start = start;
 }
 
-template <class A>
-void GraphSolver<A>::setEnd(size_t end) {
+void GraphSolveBase::setEnd(size_t end) {
     this->end = end;
 }
 

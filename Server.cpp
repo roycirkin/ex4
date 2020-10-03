@@ -73,9 +73,10 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
             Logger::log(Logger::Level::Info, "open socket communication " + std::to_string(newSocket));
             char buf[1024];
             int bytesRead;
-
-
+            
             bool running = true;
+            bool didGetAnyInput = false;
+
             while (running) {
                 std::stringstream ins;
                 auto start = std::chrono::system_clock::now();
@@ -90,18 +91,24 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                         buf[bytesRead] = 0;
                         std::string msg = buf;
                         Logger::log(Logger::Level::Debug, "recived:" + msg);
+                        didGetAnyInput = true;
                     }
 
                     auto end = std::chrono::system_clock::now();
                     std::chrono::duration<double> diff = end-start;
                     int seconds = diff.count() ;
 
-                    if (seconds > 20) {
-                        Logger::log(Logger::Level::Info, "timeout reading - didnt find valid message");
-
+                    if ((seconds > 5) && (didGetAnyInput == false)) {
+                        Logger::log(Logger::Level::Info, "5 seconds without any input - closing the connection");
                         running = false;
                         break;
                     }
+                    if (seconds > 30) {
+                        Logger::log(Logger::Level::Info, "timeout reading - didnt find valid message");
+                        running = false;
+                        break;
+                    }
+
                     if (wouldblock){
                         std::this_thread::sleep_for(std::chrono::microseconds(100));
                         continue;
@@ -169,6 +176,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                 if (status != ClientHandle::GraphSolverStatus::successes) {
                     running = false;
                 }
+                c.update();
             }
         }
         Logger::log(Logger::Level::Info, "closed socket communication" + std::to_string(newSocket));

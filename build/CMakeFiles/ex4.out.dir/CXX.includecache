@@ -6,24 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/roy/ex4/ClientHandler.cpp
-ClientHandler.hpp
-/home/roy/ex4/ClientHandler.hpp
-Logger.hpp
-/home/roy/ex4/Logger.hpp
-FileExceptions.hpp
-/home/roy/ex4/FileExceptions.hpp
-matrix/ClassMatrix.hpp
-/home/roy/ex4/matrix/ClassMatrix.hpp
-matrix/MatrixParser.hpp
-/home/roy/ex4/matrix/MatrixParser.hpp
-regex
--
-string
--
-iostream
--
-
 /home/roy/ex4/ClientHandler.hpp
 sstream
 -
@@ -37,8 +19,6 @@ algorithm
 /home/roy/ex4/algorithm
 matrix/ClassMatrix.hpp
 /home/roy/ex4/matrix/ClassMatrix.hpp
-
-/home/roy/ex4/FileExceptions.hpp
 
 /home/roy/ex4/Graph.hpp
 vector
@@ -90,12 +70,6 @@ chrono
 ClientHandler.hpp
 /home/roy/ex4/ClientHandler.hpp
 
-/home/roy/ex4/Solver.cpp
-Solver.hpp
-/home/roy/ex4/Solver.hpp
-SearchAlgo.hpp
-/home/roy/ex4/SearchAlgo.hpp
-
 /home/roy/ex4/Solver.hpp
 SearchAlgo.hpp
 /home/roy/ex4/SearchAlgo.hpp
@@ -123,12 +97,4 @@ unistd.h
 -
 ErrorCode.h
 /home/roy/ex4/matrix/ErrorCode.h
-
-/home/roy/ex4/matrix/MatrixParser.hpp
-ClassMatrix.hpp
-/home/roy/ex4/matrix/ClassMatrix.hpp
-string
--
-vector
--
 

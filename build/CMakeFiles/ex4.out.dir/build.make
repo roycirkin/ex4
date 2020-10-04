@@ -60,171 +60,171 @@ include CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o: ../matrix/MatrixParser.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o -c /home/roy/ex4/matrix/MatrixParser.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.o -c /home/roy/ex4/matrix/MatrixParser.cpp
 
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/MatrixParser.cpp > CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/MatrixParser.cpp > CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.i
 
 CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/MatrixParser.cpp -o CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/MatrixParser.cpp -o CMakeFiles/ex4.out.dir/matrix/MatrixParser.cpp.s
 
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o: ../matrix/MatrixExceptions.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o -c /home/roy/ex4/matrix/MatrixExceptions.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.o -c /home/roy/ex4/matrix/MatrixExceptions.cpp
 
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/MatrixExceptions.cpp > CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/MatrixExceptions.cpp > CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.i
 
 CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/MatrixExceptions.cpp -o CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/MatrixExceptions.cpp -o CMakeFiles/ex4.out.dir/matrix/MatrixExceptions.cpp.s
 
 CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o: ../matrix/ErrorCode.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building C object CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o   -c /home/roy/ex4/matrix/ErrorCode.c
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.o   -c /home/roy/ex4/matrix/ErrorCode.c
 
 CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.i"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/roy/ex4/matrix/ErrorCode.c > CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.i
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/roy/ex4/matrix/ErrorCode.c > CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.i
 
 CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.s"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/roy/ex4/matrix/ErrorCode.c -o CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.s
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/roy/ex4/matrix/ErrorCode.c -o CMakeFiles/ex4.out.dir/matrix/ErrorCode.c.s
 
 CMakeFiles/ex4.out.dir/matrix/Matrix.c.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/Matrix.c.o: ../matrix/Matrix.c
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building C object CMakeFiles/ex4.out.dir/matrix/Matrix.c.o"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/Matrix.c.o   -c /home/roy/ex4/matrix/Matrix.c
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/Matrix.c.o   -c /home/roy/ex4/matrix/Matrix.c
 
 CMakeFiles/ex4.out.dir/matrix/Matrix.c.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing C source to CMakeFiles/ex4.out.dir/matrix/Matrix.c.i"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/roy/ex4/matrix/Matrix.c > CMakeFiles/ex4.out.dir/matrix/Matrix.c.i
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -E /home/roy/ex4/matrix/Matrix.c > CMakeFiles/ex4.out.dir/matrix/Matrix.c.i
 
 CMakeFiles/ex4.out.dir/matrix/Matrix.c.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling C source to assembly CMakeFiles/ex4.out.dir/matrix/Matrix.c.s"
-	/bin/c99-gcc $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/roy/ex4/matrix/Matrix.c -o CMakeFiles/ex4.out.dir/matrix/Matrix.c.s
+	/bin/gcc-9 $(C_DEFINES) $(C_INCLUDES) $(C_FLAGS) -S /home/roy/ex4/matrix/Matrix.c -o CMakeFiles/ex4.out.dir/matrix/Matrix.c.s
 
 CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o: ../matrix/ClassMatrix.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o -c /home/roy/ex4/matrix/ClassMatrix.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.o -c /home/roy/ex4/matrix/ClassMatrix.cpp
 
 CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/ClassMatrix.cpp > CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/matrix/ClassMatrix.cpp > CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.i
 
 CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/ClassMatrix.cpp -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/matrix/ClassMatrix.cpp -o CMakeFiles/ex4.out.dir/matrix/ClassMatrix.cpp.s
 
 CMakeFiles/ex4.out.dir/Graph.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/Graph.cpp.o: ../Graph.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/ex4.out.dir/Graph.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Graph.cpp.o -c /home/roy/ex4/Graph.cpp
 
 CMakeFiles/ex4.out.dir/Graph.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Graph.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Graph.cpp > CMakeFiles/ex4.out.dir/Graph.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Graph.cpp > CMakeFiles/ex4.out.dir/Graph.cpp.i
 
 CMakeFiles/ex4.out.dir/Graph.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Graph.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Graph.cpp -o CMakeFiles/ex4.out.dir/Graph.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Graph.cpp -o CMakeFiles/ex4.out.dir/Graph.cpp.s
 
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o: ../SearchAlgo.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o -c /home/roy/ex4/SearchAlgo.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.o -c /home/roy/ex4/SearchAlgo.cpp
 
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/SearchAlgo.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/SearchAlgo.cpp > CMakeFiles/ex4.out.dir/SearchAlgo.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/SearchAlgo.cpp > CMakeFiles/ex4.out.dir/SearchAlgo.cpp.i
 
 CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/SearchAlgo.cpp -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/SearchAlgo.cpp -o CMakeFiles/ex4.out.dir/SearchAlgo.cpp.s
 
 CMakeFiles/ex4.out.dir/Solver.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/Solver.cpp.o: ../Solver.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/ex4.out.dir/Solver.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Solver.cpp.o -c /home/roy/ex4/Solver.cpp
 
 CMakeFiles/ex4.out.dir/Solver.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Solver.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Solver.cpp > CMakeFiles/ex4.out.dir/Solver.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Solver.cpp > CMakeFiles/ex4.out.dir/Solver.cpp.i
 
 CMakeFiles/ex4.out.dir/Solver.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Solver.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Solver.cpp -o CMakeFiles/ex4.out.dir/Solver.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Solver.cpp -o CMakeFiles/ex4.out.dir/Solver.cpp.s
 
 CMakeFiles/ex4.out.dir/Logger.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/Logger.cpp.o: ../Logger.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/ex4.out.dir/Logger.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Logger.cpp.o -c /home/roy/ex4/Logger.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Logger.cpp.o -c /home/roy/ex4/Logger.cpp
 
 CMakeFiles/ex4.out.dir/Logger.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Logger.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Logger.cpp > CMakeFiles/ex4.out.dir/Logger.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Logger.cpp > CMakeFiles/ex4.out.dir/Logger.cpp.i
 
 CMakeFiles/ex4.out.dir/Logger.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Logger.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Logger.cpp -o CMakeFiles/ex4.out.dir/Logger.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Logger.cpp -o CMakeFiles/ex4.out.dir/Logger.cpp.s
 
 CMakeFiles/ex4.out.dir/Server.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/Server.cpp.o: ../Server.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/ex4.out.dir/Server.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Server.cpp.o -c /home/roy/ex4/Server.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/Server.cpp.o -c /home/roy/ex4/Server.cpp
 
 CMakeFiles/ex4.out.dir/Server.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/Server.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Server.cpp > CMakeFiles/ex4.out.dir/Server.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/Server.cpp > CMakeFiles/ex4.out.dir/Server.cpp.i
 
 CMakeFiles/ex4.out.dir/Server.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/Server.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Server.cpp -o CMakeFiles/ex4.out.dir/Server.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/Server.cpp -o CMakeFiles/ex4.out.dir/Server.cpp.s
 
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.o: ../ClientHandler.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/ex4.out.dir/ClientHandler.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/ClientHandler.cpp.o -c /home/roy/ex4/ClientHandler.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/ClientHandler.cpp.o -c /home/roy/ex4/ClientHandler.cpp
 
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/ClientHandler.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/ClientHandler.cpp > CMakeFiles/ex4.out.dir/ClientHandler.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/ClientHandler.cpp > CMakeFiles/ex4.out.dir/ClientHandler.cpp.i
 
 CMakeFiles/ex4.out.dir/ClientHandler.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/ClientHandler.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/ClientHandler.cpp -o CMakeFiles/ex4.out.dir/ClientHandler.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/ClientHandler.cpp -o CMakeFiles/ex4.out.dir/ClientHandler.cpp.s
 
 CMakeFiles/ex4.out.dir/FileExceptions.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/FileExceptions.cpp.o: ../FileExceptions.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/ex4.out.dir/FileExceptions.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/FileExceptions.cpp.o -c /home/roy/ex4/FileExceptions.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/FileExceptions.cpp.o -c /home/roy/ex4/FileExceptions.cpp
 
 CMakeFiles/ex4.out.dir/FileExceptions.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/FileExceptions.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/FileExceptions.cpp > CMakeFiles/ex4.out.dir/FileExceptions.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/FileExceptions.cpp > CMakeFiles/ex4.out.dir/FileExceptions.cpp.i
 
 CMakeFiles/ex4.out.dir/FileExceptions.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/FileExceptions.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/FileExceptions.cpp -o CMakeFiles/ex4.out.dir/FileExceptions.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/FileExceptions.cpp -o CMakeFiles/ex4.out.dir/FileExceptions.cpp.s
 
 CMakeFiles/ex4.out.dir/main.cpp.o: CMakeFiles/ex4.out.dir/flags.make
 CMakeFiles/ex4.out.dir/main.cpp.o: ../main.cpp
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/roy/ex4/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Building CXX object CMakeFiles/ex4.out.dir/main.cpp.o"
-	/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/main.cpp.o -c /home/roy/ex4/main.cpp
+	/bin/g++-9  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/ex4.out.dir/main.cpp.o -c /home/roy/ex4/main.cpp
 
 CMakeFiles/ex4.out.dir/main.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/ex4.out.dir/main.cpp.i"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/main.cpp > CMakeFiles/ex4.out.dir/main.cpp.i
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/roy/ex4/main.cpp > CMakeFiles/ex4.out.dir/main.cpp.i
 
 CMakeFiles/ex4.out.dir/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/ex4.out.dir/main.cpp.s"
-	/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/main.cpp -o CMakeFiles/ex4.out.dir/main.cpp.s
+	/bin/g++-9 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/roy/ex4/main.cpp -o CMakeFiles/ex4.out.dir/main.cpp.s
 
 # Object files for target ex4.out
 ex4_out_OBJECTS = \

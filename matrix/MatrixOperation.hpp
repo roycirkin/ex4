@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
 #include <fstream>
-#include "../CacheManager.hpp"
-
 
 namespace MatrixOperation {
 
@@ -16,6 +14,3 @@ cacheManager::CacheManager& cache, matrixOperation m);
 
 
 }
-
-
-

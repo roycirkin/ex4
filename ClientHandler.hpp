@@ -29,7 +29,7 @@ public:
     GraphSolverStatus virtual handleClient (std::stringstream& inputStream, std::stringstream& outputSTream) = 0;
     int virtual validateMsg(std::stringstream& inputstream) = 0;
     virtual std::string getSyncString() = 0;
-    virtual void update() = 0;
+    virtual void update(bool& run) = 0;
 
 };
 
@@ -63,7 +63,7 @@ public:
     std::string getSyncString() {
         return "\r\n\r\n";
     }
-    virtual void update();
+    virtual void update(bool& run);
 
 };
 
@@ -90,14 +90,27 @@ public:
     virtual std::string to_string(GraphHandler& graphHandler);
 };
 
-class GraphSolverProtocolMsgsendGraph : public GraphSolverProtocolMsg {
-public:
-    GraphSolverProtocolMsgsendGraph(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
+class ClientHandlerGenerator{
 
+virtual ClientHandler* generate() = 0;
+
+};
+
+class GraphHandlerGenerator : public ClientHandlerGenerator{
+
+virtual GraphHandler* generate();
+
+};
+
+ class GraphSolverProtocolMsgsendGraph : public GraphSolverProtocolMsg {
+    public:
+    GraphSolverProtocolMsgsendGraph(enum GraphSolverStatus status) : GraphSolverProtocolMsg(status) {}
     //the messgae the client gets in the hello stage
     virtual std::string to_string(GraphHandler& graphHandler);
     
-};
+ };
+
+
 
 GraphSolverStatus operator++(GraphSolverStatus s);
 
@@ -115,7 +128,6 @@ size_t getHash(const std::string& str);
 bool getTwoNumbersInALine(std::string& line, int& a, int&b);
 
 bool isPointInMatrix(size_t height, size_t width, int posX, int posY);
-
 
 }
 

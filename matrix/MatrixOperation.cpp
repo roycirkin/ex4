@@ -1,7 +1,7 @@
 #include "MatrixParser.hpp"
 #include "MatrixOperation.hpp"
 #include "ClassMatrix.hpp"
-#include "../BMP/Exceptions.hpp"
+#include "FileExceptions.hpp"
 #include "MatrixParser.hpp"
 #include <string>
 #include <vector>

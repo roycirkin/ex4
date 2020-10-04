@@ -48,6 +48,9 @@ public:
     virtual std::string getRoute() const;
 };
 
+class FindGraphPath {
+
+};
 
 
 

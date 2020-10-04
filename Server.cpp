@@ -17,7 +17,10 @@ const int successes = 0;
 
 Server::Server() : m_pClientHandler(nullptr),  m_port(0) {}
 
-void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
+void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
+
+constexpr size_t threadPoolSize = 20;
+
     try {
         setClientHandler(&c);
         setPort(port);
@@ -61,8 +64,23 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
         struct sockaddr pear_address;
         int newSocket = 0;
 
-        //accepting clients
+    	int res;
+ 
+		/* BANG! we can get SIGTERM at this point. */
+        fd_set fds;
+		FD_ZERO (&fds);
+		FD_SET (sockfd, &fds);
+ 
         while (true) {
+            res = select (sockfd + 1, &fds, NULL, NULL, NULL);
+            if (res < 0 && errno != EINTR) {
+                Logger::log(Logger::Level::Error, "select failed");
+                break;
+            }
+            else if (res == 0) {
+                continue;
+            }
+ 
             newSocket = accept(sockfd, &pear_address, &addrlen);
             if (newSocket < 0) { 
                 Logger::log(Logger::Level::Error, "connection refused");
@@ -73,6 +91,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
             Logger::log(Logger::Level::Info, "open socket communication " + std::to_string(newSocket));
             char buf[1024];
             int bytesRead;
+
             
             bool running = true;
             bool didGetAnyInput = false;
@@ -134,7 +153,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                     ins.write(buf,bytesRead);
 
                     if (ins.str().find(c.getSyncString()) != string::npos) {
-                        Logger::log(Logger::Level::Debug, "in the find - "+ins.str());
+                        Logger::log(Logger::Level::Debug, "in the find - " + ins.str());
                         break;
                     }                    
                 }
@@ -176,7 +195,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandler & c){
                 if (status != ClientHandle::GraphSolverStatus::successes) {
                     running = false;
                 }
-                c.update();
+                c.update(running);
             }
         }
         Logger::log(Logger::Level::Info, "closed socket communication" + std::to_string(newSocket));

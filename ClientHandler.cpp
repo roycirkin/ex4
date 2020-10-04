@@ -87,7 +87,6 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
 
     if (solve != "SOLVE") {
         return unsuportedTaskError;
-        Logger::log(Logger::Level::Debug, "solve failed - " + solve);
     }
 
     if (problem == "FIND-GRAPH-PATH") {
@@ -211,7 +210,6 @@ GraphSolverStatus GraphHandler::handleHello(std::stringstream& inputStream, std:
         res = GraphSolverStatus::unvalidInput;
     }
 
-    Logger::log(Logger::Level::Debug, "in client handler - hello");
     std::ignore = inputStream;
     GraphSolverProtocolMsgHello msg(res);
     outputStream << msg.to_string(*this);
@@ -231,7 +229,6 @@ GraphSolverStatus GraphHandler::handleSendGraph(std::stringstream& inputStream, 
         return res;
     }
 
-    Logger::log(Logger::Level::Debug, "in client handler - sendGraph");
     std::ignore = inputStream;
 
     auto status = m_solver->solve();
@@ -337,9 +334,10 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
         return ss.str();
     }
 
-    void GraphHandler::update() {
+    void GraphHandler::update(bool& run) {
         if (m_stage == sendGraph) {
             m_stage = hello;
+            run = false;
             return;
         }
         if (m_stage == hello) {
@@ -347,6 +345,12 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
             return;
         }
     }
+
+
+    GraphHandler* GraphHandlerGenerator::generate() {
+        return new GraphHandler();
+    }
+
 
 
 

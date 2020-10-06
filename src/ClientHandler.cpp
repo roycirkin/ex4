@@ -366,7 +366,7 @@ bool isPointInMatrix(size_t height, size_t width, int posX, int posY) {
     }
 
 
-    shared_ptr<ClientHandler> GraphHandlerGenerator::generate() {
+    std::shared_ptr<ClientHandler> GraphHandlerGenerator::generate() {
         return std::make_shared<GraphHandler>();
     }
 

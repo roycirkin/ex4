@@ -4,12 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
+        
         {
             "name": "cpp - Build and debug active file",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/ex4.out",
-            "args": ["8080", "serial"],
+            "program": "${workspaceFolder}/src/bin/ex4.out",
+            "args": ["8080",],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],

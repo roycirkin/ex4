@@ -9,7 +9,8 @@
 #include <sstream>
 #include <thread>
 #include <chrono>
-
+#include <mutex>
+#include <signal.h>
 
 namespace ServerSide {
 
@@ -18,12 +19,12 @@ const int successes = 0;
 Server::Server(){}
 
 void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
+    int sockfd;
 
     try {
 
         int opt = 1;
-        size_t const maxMsgSize = 10000;
-        auto sockfd = socket(AF_INET, SOCK_STREAM, 0);
+        sockfd = socket(AF_INET, SOCK_STREAM, 0);
         Logger::log(Logger::Level::Info, "opening the server");
 
         if (sockfd < 0) {
@@ -66,14 +67,29 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
 
         m_clientHandlers.resize(threadPoolSize);
         m_clientSockets.resize(threadPoolSize);
-        m_avialbleThreads.resize(threadPoolSize);
+        m_avialbleTasks.resize(threadPoolSize);
         for (size_t i = 0; i < threadPoolSize; ++i) {
-            m_avialbleThreads [i] = threadPoolSize - i - 1;
+            m_avialbleTasks [i] = threadPoolSize - i - 1;
             m_clientHandlers[i] = c.generate();
-            
+            m_threads.push_back(std::thread(&MyParallelServer::clientThreadFunc, this));
         }
 
-        while (true) {
+        // struct timespec timeout;
+        // timeout.tv_sec = 0;
+        // timeout.tv_nsec = 100000;
+
+        sigset_t orig_mask;
+        sigset_t mask;
+
+        sigemptyset (&mask);
+        sigaddset (&mask, SIGTERM);
+    
+        if (sigprocmask(SIG_BLOCK, &mask, &orig_mask) < 0) {
+            //error
+        }
+
+        while (m_running) {
+
             int res = select (sockfd + 1, &fds, NULL, NULL, NULL);
             if (res < 0 && errno != EINTR) {
                 Logger::log(Logger::Level::Error, "select failed");
@@ -83,24 +99,43 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                 continue;
             }
 
-            size_t index = m_avialbleThreads.back();
-            m_avialbleThreads.pop_back();
+
+            Logger::log(Logger::Level::Error, "after the continue");
+
+            size_t index;
+            {
+                std::lock_guard<std::mutex> guard(m_avialbleTasksMutex);
+                index = m_avialbleTasks.back();
+                m_avialbleTasks.pop_back();
+            }
+            
             Logger::log(Logger::Level::Info, "using index " + std::to_string(index));
 
-
             newSocket = accept(sockfd, &pear_address, &addrlen);
+            
             if (newSocket < 0) { 
                 Logger::log(Logger::Level::Error, "connection refused");
                 throw std::system_error{errno, std::system_category()};
             }
 
             m_clientSockets[index] = newSocket;
-            ClientHandle::ClientHandler* clientHandler = (m_clientHandlers[index]).get();
-            acceptClient(*clientHandler, m_clientSockets[index]);
-            Logger::log(Logger::Level::Info, "closed socket communication, socket: " + std::to_string(newSocket));
-            close(newSocket);
-            m_avialbleThreads.push_back(index);
+        
+            {
+                std::lock_guard<std::mutex> guard(m_taskQueueMutex);
+                m_taskQueue.push_back(index);
+                m_cv.notify_one();
+                // signal thread to act
+            }
+
+            //ClientHandle::ClientHandler* clientHandler = (m_clientHandlers[index]).get();
+            //acceptClient(*clientHandler, m_clientSockets[index]);
+            //Logger::log(Logger::Level::Info, "closed socket communication, socket: " + std::to_string(newSocket));
+            //close(newSocket);
+
+            //m_avialbleTasks.push_back(index);
         }
+        Logger::log(Logger::Level::Info, "stopping server");
+        close(sockfd);
 
 
 
@@ -179,7 +214,7 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
             ins.seekg(std::ios_base::beg);
             ins.write(buf,bytesRead);
 
-            if (ins.str().find(c.getSyncString()) != string::npos) {
+            if (ins.str().find(c.getSyncString()) != std::string::npos) {
                 break;
             }     
         }               
@@ -202,7 +237,7 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
             byteWriten = write(socket, outs.str().c_str(), outs.str().length());
             if (byteWriten < 0) {
                 Logger::log(Logger::Level::Error, "exception while writing");
-                throw std::system_error{errno, std::system_category()};
+                break;
             }
             if (byteWriten == 0) {
                 break;
@@ -231,12 +266,32 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
 
 
 void  MyParallelServer::stop() {
+    m_running = false;
+}
+
+MyParallelServer::MyParallelServer() : m_running(true){
+
+}
+void MyParallelServer::clientThreadFunc() {
+    size_t task;
+    while (m_running) {
+    {
+        std::unique_lock<std::mutex> lock(m_taskQueueMutex);
+        m_cv.wait(lock);
+        task = m_taskQueue.back();
+        m_taskQueue.pop_back();
+        }   
+        acceptClient(*(m_clientHandlers[task].get()), m_clientSockets[task]);
+        {
+            std::lock_guard<std::mutex> guard(m_avialbleTasksMutex);
+            m_avialbleTasks.push_back(task);
+            Logger::log(Logger::Level::Debug, "closing socket in index:   " + std::to_string(task) + "socket number" + std::to_string(m_clientSockets[task]));
+            close(m_clientSockets[task]);
+        }
+    }
 
 }
 
-MyParallelServer::MyParallelServer() {
-
-}
 
 
 

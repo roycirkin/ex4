@@ -1,6 +1,7 @@
 #pragma once
 #include "ClientHandler.hpp"
 #include <thread>
+#include <atomic>
 
 namespace ServerSide {
 
@@ -29,13 +30,23 @@ public:
 
     void acceptClient(ClientHandle::ClientHandler & c, int & socket);
 
+    void clientThreadFunc();
+
 private:
-    std::vector<size_t> m_avialbleThreads;
+    std::vector<size_t> m_avialbleTasks;
+    std::vector<size_t> m_taskQueue;
+    std::mutex m_taskQueueMutex;
+    std::mutex m_avialbleTasksMutex;
     std::vector<std::shared_ptr<ClientHandle::ClientHandler>> m_clientHandlers;
     std::vector<int> m_clientSockets;
+    std::atomic<bool> m_running;
+    std::mutex m_serverMutex;
+    std::vector<std::thread> m_threads;
 
     constexpr static size_t threadPoolSize = 20;
     constexpr static size_t maxMsgSize = 10000;
+    std::condition_variable m_cv;
+    std::mutex m_conditionVarMutex;
 
 
 

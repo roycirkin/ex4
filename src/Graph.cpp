@@ -1,17 +1,18 @@
 #include "Graph.hpp"
 #include <algorithm>
+#include <vector>
 
 namespace Graphs {
 
 void Graph::setCosts(const std::vector<double> costs) {
     m_costs = costs;
 }
-void Graph::setAdjList (const std::vector<vector<int>> adj) {
+void Graph::setAdjList (const std::vector<std::vector<int>> adj) {
     m_adjList = adj;
 }
 
 // Graph Constructor
-Graph::Graph(vector<Edge> const &edges, std::vector<double>& costs) {
+Graph::Graph(std::vector<Edge> const &edges, std::vector<double>& costs) {
     try {
         for (auto d : costs) {
             if ((d < 1) && (d != -1)) {
@@ -109,7 +110,7 @@ return counter;
 }
 
 
-std::vector<vector<int>>& Graph::getAdjList() {
+std::vector<std::vector<int>>& Graph::getAdjList() {
     return m_adjList;
 }
 
@@ -122,14 +123,14 @@ void printGraph(Graph const& graph)
     for (int i = 0; i < graph.getSize(); i++)
     {
         // print current vertex number
-        cout << i << " --> ";
+        std::cout << i << " --> ";
 
         // print all neighboring vertices of vertex i
         for (int v : graph.m_adjList[i])
-            cout << v << " ";
+            std::cout << v << " ";
 
-        cout << " | " << "cost is: " << graph.m_costs[i];
-        cout << endl;
+        std::cout << " | " << "cost is: " << graph.m_costs[i];
+        std::cout << std::endl;
     }
 }
 

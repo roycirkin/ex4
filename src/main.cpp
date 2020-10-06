@@ -5,16 +5,21 @@
 #include "Server.hpp"
 #include "SearchAlgo.hpp"
 #include "ClientHandler.hpp"
+#include <signal.h>
 #include <iostream>
 #include <vector>
 #include <errno.h>
 #include <system_error>
-
+#include <thread>
+#include <csignal>
 
 namespace boot {
 class Main{
+private:
+    ServerSide::MyParallelServer m_server;
 public:
-    void main(int argc, char * argv[]) {
+    void run(int argc, char * argv[]) {
+
         try {
             uint16_t port = 0;
             char server_type = 'p';
@@ -37,11 +42,11 @@ public:
                 }
             }
 
-            ServerSide::MyParallelServer server;
             ClientHandle::GraphHandlerGenerator c;
             if (server_type == 'p') {
-                server.open(port, c);
-            }       
+                m_server.open(port, c);
+            }
+            
 
         } catch (ServerSide::UnSuportedServerError e){
             e.print();
@@ -50,14 +55,33 @@ public:
         }
 
     }
+
+    void signalHandler()
+    {
+    }
+
+    void stop()
+    {
+        m_server.stop();
+    }
 };
 
 }
 
+boot::Main g_main = boot::Main();
+
+// static void sig_handler(int signal)
+// {
+//     std::ignore = signal;
+//     g_main.stop();
+//     //exit(-1);
+// }
+
 int main(int argc, char* argv[]) {
     Logger::startLog(std::cerr);
-    boot::Main server = boot::Main();
-    server.main(argc,argv);
+    // std::signal(SIGINT, sig_handler);
+
+    g_main.run(argc, argv);
 
     // vector<double> costs = 
     // {

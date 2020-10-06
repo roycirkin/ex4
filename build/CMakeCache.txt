@@ -299,11 +299,20 @@ CVS_UPDATE_OPTIONS:STRING=-d -A -P
 //Maximum time allowed before CTest will kill the test.
 DART_TESTING_TIMEOUT:STRING=1500
 
+//The directory containing a CMake configuration file for EXPLAIN.
+EXPLAIN_DIR:PATH=EXPLAIN_DIR-NOTFOUND
+
 //Path to a program.
 GITCOMMAND:FILEPATH=/usr/bin/git
 
 //Path to a program.
 HGCOMMAND:FILEPATH=HGCOMMAND-NOTFOUND
+
+//Path to a library.
+LIBEXPLAIN:FILEPATH=LIBEXPLAIN-NOTFOUND
+
+//The directory containing a CMake configuration file for LIBEXPLAIN.
+LIBEXPLAIN_DIR:PATH=LIBEXPLAIN_DIR-NOTFOUND
 
 //Command to build the project
 MAKECOMMAND:STRING=/usr/bin/cmake --build . --config "${CTEST_CONFIGURATION_TYPE}" -- -i
@@ -334,6 +343,9 @@ ex4.out_BINARY_DIR:STATIC=/home/roy/ex4/build
 
 //Value Computed by CMake
 ex4.out_SOURCE_DIR:STATIC=/home/roy/ex4/src
+
+//Path to a library.
+libexplin:FILEPATH=libexplin-NOTFOUND
 
 
 ########################

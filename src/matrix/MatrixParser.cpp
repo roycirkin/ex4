@@ -11,7 +11,7 @@ namespace MatrixParsering {
 
 const u_int8_t MaxToRead = 100;
 
-const matrix::Matrix& getMatrixFromString(std::string& content) {
+matrix::Matrix getMatrixFromString(std::string& content) {
 
     std::string line;
     std::regex validity("((( |\t)*)(-?)[[:digit:]]+((\\.[[:digit:]]+)?)(( |\t)*)(,))*(( |\t)*)(-?)[[:digit:]]+((\\.[[:digit:]]+)?)(( |\t)*)");    
@@ -76,14 +76,14 @@ const matrix::Matrix& getMatrixFromString(std::string& content) {
         lines++;
     }
 
-    matrix::Matrix* mat = new matrix::Matrix(lines,width);
+    matrix::Matrix mat(lines,width);
 
-    getMatrixFromVector(matrixVector, *mat);
+    getMatrixFromVector(matrixVector, mat);
 
-    return *mat;
+    return mat;
 }
 
-const matrix::Matrix& getMatrixFromFile(const std::string& path) {
+const matrix::Matrix getMatrixFromFile(const std::string& path) {
     std::ifstream file;         
     file.open(path, std::ios::in); 
     if (file.fail()) {

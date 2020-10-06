@@ -74092,7 +74092,13 @@ public:
         std::cerr << "unkown port";
     }
 };
-# 93 "/home/roy/ex4/src/Server.hpp"
+
+
+
+
+
+
+
 }
 # 2 "/home/roy/ex4/src/Server.cpp" 2
 # 1 "/home/roy/ex4/src/Logger.hpp" 1
@@ -76745,23 +76751,23 @@ const int successes = 0;
 Server::Server(){}
 
 void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
-    int sockfd;
+    int server_socket;
 
     try {
 
         int opt = 1;
-        sockfd = socket(
+        server_socket = socket(
 # 27 "/home/roy/ex4/src/Server.cpp" 3 4
-                       2
+                              2
 # 27 "/home/roy/ex4/src/Server.cpp"
-                              , 
+                                     , 
 # 27 "/home/roy/ex4/src/Server.cpp" 3 4
-                                SOCK_STREAM
+                                       SOCK_STREAM
 # 27 "/home/roy/ex4/src/Server.cpp"
-                                           , 0);
+                                                  , 0);
         Logger::log(Logger::Level::Info, "opening the server");
 
-        if (sockfd < 0) {
+        if (server_socket < 0) {
             Logger::log(Logger::Level::Error, "cant open the socket");
             throw std::system_error{
 # 32 "/home/roy/ex4/src/Server.cpp" 3 4
@@ -76783,19 +76789,19 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                                            ;
         address.sin_port = htons( port );
 
-        if (setsockopt(sockfd, 
+        if (setsockopt(server_socket, 
 # 40 "/home/roy/ex4/src/Server.cpp" 3 4
-                              1
+                                     1
 # 40 "/home/roy/ex4/src/Server.cpp"
-                                        , 
+                                               , 
 # 40 "/home/roy/ex4/src/Server.cpp" 3 4
-                                          2 
+                                                 2 
 # 40 "/home/roy/ex4/src/Server.cpp"
-                                                       | 
+                                                              | 
 # 40 "/home/roy/ex4/src/Server.cpp" 3 4
-                                                         15
+                                                                15
 # 40 "/home/roy/ex4/src/Server.cpp"
-                                                                     , &opt, sizeof(opt)) < 0)
+                                                                            , &opt, sizeof(opt)) < 0)
         {
             Logger::log(Logger::Level::Error, "set socket option failed");
             throw std::system_error{
@@ -76806,7 +76812,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
         }
 
         Logger::log(Logger::Level::Info, "binding server port " + std::to_string(port));
-        if (bind(sockfd, (struct sockaddr *)&address, sizeof(address))<0)
+        if (bind(server_socket, (struct sockaddr *)&address, sizeof(address))<0)
         {
             Logger::log(Logger::Level::Error, "bind failed");
             throw std::system_error{
@@ -76816,7 +76822,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                                         , std::system_category()};
         }
 
-        if (listen(sockfd, backlogSize) < 0)
+        if (listen(server_socket, backlogSize) < 0)
         {
             Logger::log(Logger::Level::Error, "listen failed");
             throw std::system_error{
@@ -76826,10 +76832,10 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                                         , std::system_category()};
         }
 
-        socklen_t addrlen;
-        struct sockaddr pear_address;
-        int newSocket = 0;
+        sockaddr new_client_address;
+        socklen_t addrlen= sizeof(new_client_address);
 
+        int new_client_socket = 0;
 
         fd_set fds;
   
@@ -76849,15 +76855,18 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
 # 66 "/home/roy/ex4/src/Server.cpp" 3 4
  )->fds_bits)[((
 # 66 "/home/roy/ex4/src/Server.cpp"
- sockfd
+ server_socket
 # 66 "/home/roy/ex4/src/Server.cpp" 3 4
  ) / (8 * (int) sizeof (__fd_mask)))] |= ((__fd_mask) (1UL << ((
 # 66 "/home/roy/ex4/src/Server.cpp"
- sockfd
+ server_socket
 # 66 "/home/roy/ex4/src/Server.cpp" 3 4
  ) % (8 * (int) sizeof (__fd_mask)))))))
 # 66 "/home/roy/ex4/src/Server.cpp"
-                      ;
+                             ;
+
+
+
 
         m_clientHandlers.resize(threadPoolSize);
         m_clientSockets.resize(threadPoolSize);
@@ -76868,61 +76877,51 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
             m_threads.push_back(std::thread(&MyParallelServer::clientThreadFunc, this));
         }
 
-
-
-
-
-        sigset_t orig_mask;
-        sigset_t mask;
-
-        sigemptyset (&mask);
-        sigaddset (&mask, 
-# 85 "/home/roy/ex4/src/Server.cpp" 3 4
-                         15
-# 85 "/home/roy/ex4/src/Server.cpp"
-                                );
-
-        if (sigprocmask(
-# 87 "/home/roy/ex4/src/Server.cpp" 3 4
-                       0
-# 87 "/home/roy/ex4/src/Server.cpp"
-                                , &mask, &orig_mask) < 0) {
-
-        }
-
         while (m_running) {
 
-            int res = select (sockfd + 1, &fds, 
-# 93 "/home/roy/ex4/src/Server.cpp" 3 4
-                                               __null
-# 93 "/home/roy/ex4/src/Server.cpp"
-                                                   , 
-# 93 "/home/roy/ex4/src/Server.cpp" 3 4
+            int res = select(server_socket + 1, &fds, 
+# 82 "/home/roy/ex4/src/Server.cpp" 3 4
                                                      __null
-# 93 "/home/roy/ex4/src/Server.cpp"
+# 82 "/home/roy/ex4/src/Server.cpp"
                                                          , 
-# 93 "/home/roy/ex4/src/Server.cpp" 3 4
+# 82 "/home/roy/ex4/src/Server.cpp" 3 4
                                                            __null
-# 93 "/home/roy/ex4/src/Server.cpp"
-                                                               );
-            if (res < 0 && 
-# 94 "/home/roy/ex4/src/Server.cpp" 3 4
-                          (*__errno_location ()) 
-# 94 "/home/roy/ex4/src/Server.cpp"
-                                != 
-# 94 "/home/roy/ex4/src/Server.cpp" 3 4
-                                   4
-# 94 "/home/roy/ex4/src/Server.cpp"
-                                        ) {
-                Logger::log(Logger::Level::Error, "select failed");
-                break;
-            }
-            else if (res == 0) {
+# 82 "/home/roy/ex4/src/Server.cpp"
+                                                               , 
+# 82 "/home/roy/ex4/src/Server.cpp" 3 4
+                                                                 __null
+# 82 "/home/roy/ex4/src/Server.cpp"
+                                                                     );
+            if (res < 0) {
+               if (
+# 84 "/home/roy/ex4/src/Server.cpp" 3 4
+                  (*__errno_location ())
+# 84 "/home/roy/ex4/src/Server.cpp"
+                       !=
+# 84 "/home/roy/ex4/src/Server.cpp" 3 4
+                         4
+# 84 "/home/roy/ex4/src/Server.cpp"
+                              ){
+                Logger::log(Logger::Level::Error, "select error");
+                throw std::system_error{
+# 86 "/home/roy/ex4/src/Server.cpp" 3 4
+                                       (*__errno_location ())
+# 86 "/home/roy/ex4/src/Server.cpp"
+                                            , std::system_category()};
+               } else {
+                                               Logger::log(Logger::Level::Error, "res is" + std::to_string(res));
+
+
+               continue;
+               }
+            } else if (res == 0) {
+                                            Logger::log(Logger::Level::Error, " res is 0");
+
                 continue;
             }
+                            Logger::log(Logger::Level::Error, " after the select:)");
 
 
-            Logger::log(Logger::Level::Error, "after the continue");
 
             size_t index;
             {
@@ -76931,20 +76930,23 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                 m_avialbleTasks.pop_back();
             }
 
-            Logger::log(Logger::Level::Info, "using index " + std::to_string(index));
+            new_client_socket = accept(server_socket, (struct sockaddr *)&new_client_address, &addrlen);
 
-            newSocket = accept(sockfd, &pear_address, &addrlen);
 
-            if (newSocket < 0) {
-                Logger::log(Logger::Level::Error, "connection refused");
+            Logger::log(Logger::Level::Info, "using index: " + std::to_string(index) + " client socket" + std::to_string(new_client_socket));
+
+
+            if (new_client_socket < 0) {
+                Logger::log(Logger::Level::Error, "accept error");
                 throw std::system_error{
-# 118 "/home/roy/ex4/src/Server.cpp" 3 4
+# 117 "/home/roy/ex4/src/Server.cpp" 3 4
                                        (*__errno_location ())
-# 118 "/home/roy/ex4/src/Server.cpp"
+# 117 "/home/roy/ex4/src/Server.cpp"
                                             , std::system_category()};
+
             }
 
-            m_clientSockets[index] = newSocket;
+            m_clientSockets[index] = new_client_socket;
 
             {
                 std::lock_guard<std::mutex> guard(m_taskQueueMutex);
@@ -76954,15 +76956,16 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
             }
 
 
-
-
-
-
-
         }
+        close(server_socket);
         Logger::log(Logger::Level::Info, "stopping server");
-        close(sockfd);
-
+        m_cv.notify_all();
+        for (size_t i = 0; i < m_threads.size(); ++i) {
+            if (m_threads[i].joinable()){
+                m_threads[i].join();
+            }
+        }
+        Logger::log(Logger::Level::Info, "server stopped");
 
 
     } catch (std::system_error& e){
@@ -76974,9 +76977,9 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
 
 
 void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socket) {
+    std::string debugstr = "acceptClient(" + std::to_string(socket) + "): ";
+    Logger::log(Logger::Level::Info, debugstr + "accepted connection");
 
-    Logger::log(Logger::Level::Info, "accepted connection");
-    Logger::log(Logger::Level::Info, "open socket communication " + std::to_string(socket));
     char buf[1024];
     int bytesRead;
 
@@ -76987,29 +76990,29 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
     while (running) {
         std::stringstream ins;
         auto start = std::chrono::system_clock::now();
-        Logger::log(Logger::Level::Debug, "start reading message");
+        Logger::log(Logger::Level::Debug, debugstr + "start reading message");
 
         while (true) {
             bytesRead = recv(socket, buf, sizeof(buf) - 1, 
-# 167 "/home/roy/ex4/src/Server.cpp" 3 4
+# 168 "/home/roy/ex4/src/Server.cpp" 3 4
                                                           MSG_DONTWAIT
-# 167 "/home/roy/ex4/src/Server.cpp"
+# 168 "/home/roy/ex4/src/Server.cpp"
                                                                       );
             int readerrno = 
-# 168 "/home/roy/ex4/src/Server.cpp" 3 4
+# 169 "/home/roy/ex4/src/Server.cpp" 3 4
                            (*__errno_location ())
-# 168 "/home/roy/ex4/src/Server.cpp"
+# 169 "/home/roy/ex4/src/Server.cpp"
                                 ;
             bool wouldblock = ((bytesRead < 0) && (readerrno == 
-# 169 "/home/roy/ex4/src/Server.cpp" 3 4
+# 170 "/home/roy/ex4/src/Server.cpp" 3 4
                                                                11
-# 169 "/home/roy/ex4/src/Server.cpp"
+# 170 "/home/roy/ex4/src/Server.cpp"
                                                                           ));
 
             if (bytesRead > 0){
                 buf[bytesRead] = 0;
                 std::string msg = buf;
-                Logger::log(Logger::Level::Debug, "recived:" + msg);
+                Logger::log(Logger::Level::Debug, debugstr + "recived:" + msg);
                 didGetAnyInput = true;
             }
 
@@ -77018,12 +77021,12 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
             int seconds = diff.count() ;
 
             if ((seconds > 5) && (didGetAnyInput == false)) {
-                Logger::log(Logger::Level::Info, "5 seconds without any input - closing the connection");
+                Logger::log(Logger::Level::Info, debugstr + "5 seconds without any input - closing the connection");
                 running = false;
                 break;
             }
             if (seconds > 30) {
-                Logger::log(Logger::Level::Info, "timeout reading - didnt find valid message");
+                Logger::log(Logger::Level::Info, debugstr + "timeout reading - didnt find valid message");
                 running = false;
                 break;
             }
@@ -77033,19 +77036,19 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
                 continue;
             }
             if (bytesRead == 0) {
-                Logger::log(Logger::Level::Info, "closed by peer");
+                Logger::log(Logger::Level::Info, debugstr + "closed by peer");
                 running = false;
                 break;
             }
 
             if (bytesRead < 0) {
-                Logger::log(Logger::Level::Error, "exception while reading");
+                Logger::log(Logger::Level::Error, debugstr + "exception while reading");
                 running = false;
                 break;
             }
 
             if ((size_t)ins.tellp() > maxMsgSize - sizeof(buf)) {
-                Logger::log(Logger::Level::Error, "message too big" + std::to_string((size_t)ins.tellp()));
+                Logger::log(Logger::Level::Error, debugstr + "message too big" + std::to_string((size_t)ins.tellp()));
                 running = false;
                 break;
             }
@@ -77074,20 +77077,22 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
         while (outs) {
             byteWriten = write(socket, outs.str().c_str(), outs.str().length());
             if (byteWriten < 0) {
-                Logger::log(Logger::Level::Error, "exception while writing");
+                Logger::log(Logger::Level::Error, debugstr + "exception while writing");
                 break;
             }
             if (byteWriten == 0) {
                 break;
             }
-            Logger::log(Logger::Level::Info, "writing:  " + outs.str());
+            Logger::log(Logger::Level::Debug, debugstr + "wrting: " + outs.str());
+
+
             outs.seekp(byteWriten, std::ios_base::cur);
             auto end = std::chrono::system_clock::now();
             std::chrono::duration<double> diff = end-start;
 
             int seconds = diff.count();
             if (seconds > 20) {
-                Logger::log(Logger::Level::Info, "timeout writing");
+                Logger::log(Logger::Level::Info, debugstr + "timeout writing");
                 running = false;
                 break;
             }
@@ -77113,16 +77118,23 @@ MyParallelServer::MyParallelServer() : m_running(true){
 void MyParallelServer::clientThreadFunc() {
     size_t task;
     while (m_running) {
-    {
-        std::unique_lock<std::mutex> lock(m_taskQueueMutex);
-        m_cv.wait(lock);
-        task = m_taskQueue.back();
-        m_taskQueue.pop_back();
+        {
+            std::unique_lock<std::mutex> lock(m_taskQueueMutex);
+            m_cv.wait(lock);
+            if (m_running) {
+                break;
+            }
+            if (m_taskQueue.empty()) {
+                continue;
+            }
+            task = m_taskQueue.back();
+            m_taskQueue.pop_back();
         }
         acceptClient(*(m_clientHandlers[task].get()), m_clientSockets[task]);
         {
             std::lock_guard<std::mutex> guard(m_avialbleTasksMutex);
             m_avialbleTasks.push_back(task);
+            Logger::log(Logger::Level::Debug, "closing socket in index:   " + std::to_string(task) + "socket number" + std::to_string(m_clientSockets[task]));
             close(m_clientSockets[task]);
         }
     }

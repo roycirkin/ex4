@@ -126,7 +126,6 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
                 m_taskQueue.push_back(index);
                 m_cv.notify_one();
                 // signal thread to act
-                Logger::log(Logger::Level::Debug , "wake one thread");
             }
 
 
@@ -180,14 +179,14 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
 
             auto end = std::chrono::system_clock::now();
             std::chrono::duration<double> diff = end-start;
-            int seconds = diff.count() ;
+            size_t seconds = diff.count() ;
 
-            if ((seconds > 5) && (didGetAnyInput == false)) {
+            if ((seconds > timeoutNoReading) && (didGetAnyInput == false)) {
                 Logger::log(Logger::Level::Info, debugstr + "5 seconds without any input - closing the connection");
                 running = false;
                 break;
             }
-            if (seconds > 30) {
+            if (seconds > noValidMessageTimeout) {
                 Logger::log(Logger::Level::Info, debugstr + "timeout reading - didnt find valid message");
                 running = false;
                 break;
@@ -252,8 +251,8 @@ void MyParallelServer::acceptClient(ClientHandle::ClientHandler & c, int & socke
             auto end = std::chrono::system_clock::now();
             std::chrono::duration<double> diff = end-start;
 
-            int seconds = diff.count();
-            if (seconds > 20) {
+            size_t seconds = diff.count();
+            if (seconds > noValidMessageTimeout) {
                 Logger::log(Logger::Level::Info, debugstr + "timeout writing");
                 running = false;
                 break;

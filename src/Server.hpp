@@ -43,8 +43,10 @@ private:
     std::mutex m_serverMutex;
     std::vector<std::thread> m_threads;
 
-    constexpr static size_t threadPoolSize = 20;
-    constexpr static size_t maxMsgSize = 10000;
+    constexpr static const size_t threadPoolSize = 20;
+    constexpr static const size_t maxMsgSize = 10000;
+    constexpr static const size_t timeoutNoReading = 5;
+    constexpr static const size_t noValidMessageTimeout = 30;
     std::condition_variable m_cv;
     std::mutex m_conditionVarMutex;
 

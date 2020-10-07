@@ -1,5 +1,0 @@
-Info: Started logging system.
-Info: opening the server
-Info: binding server port 8080
-Info: using index 0
-Error: connection refused

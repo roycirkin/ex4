@@ -85,11 +85,6 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
     std::transform(problem.begin(), problem.end(), problem.begin(), ::toupper);
     std::transform(instr.begin(), instr.end(), instr.begin(), ::toupper);
 
-    if (solve != "SOLVE") {
-        return unsuportedTaskError;
-    }
-
-    if (problem == "FIND-GRAPH-PATH") {
 
         std::vector<std::shared_ptr<Solver::GraphSolveBase>>::iterator it;
 
@@ -111,9 +106,7 @@ int GraphHandler::validateHello(std::stringstream& inputStream) {
         if (!std::regex_match(instr, matcher, blankLines)) {
             return unsuportedTaskError;
         }
-    } else {
-        return unsuportedTaskError;
-    }
+
     
     return successes;
 
@@ -152,6 +145,9 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
     }
 
     size_t index = 0;
+    if (matrixString.find("-") != std::string::npos){
+        return wrongMatrixGraphInput;
+    }
     while (true) {
         // Locate the substring to replace. - replacing all the "b" with "-1"
         index = matrixString.find("b", index);

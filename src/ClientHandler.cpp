@@ -145,9 +145,11 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
     }
 
     size_t index = 0;
+    //checks if you entered a negative number
     if (matrixString.find("-") != std::string::npos){
         return wrongMatrixGraphInput;
     }
+
     while (true) {
         // Locate the substring to replace. - replacing all the "b" with "-1"
         index = matrixString.find("b", index);
@@ -167,7 +169,7 @@ int GraphHandler::validateSendGraph(std::stringstream& inputStream) {
             return wrongMatrixGraphInput;
         }
         Graphs::MatrixGraph g(*(mat.get()));
-        (m_solver)->setGraph(g);/////////////////////////
+        (m_solver)->setGraph(g);
         
     }catch (FileExceptions::FileExceptions& e) {
         e.printException();

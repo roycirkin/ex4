@@ -64,9 +64,7 @@ void MyParallelServer::open(int port, ClientHandle::ClientHandlerGenerator & c){
         fd_set fds;
 		FD_ZERO (&fds);
 		FD_SET (server_socket, &fds);
-        // struct timeval timeout;      
-        // timeout.tv_sec = 0;
-        // timeout.tv_usec = 100;
+
 
         m_clientHandlers.resize(threadPoolSize);
         m_clientSockets.resize(threadPoolSize);
